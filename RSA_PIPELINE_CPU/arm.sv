@@ -8,13 +8,13 @@ module arm // Controller and Datapath
 	input logic [31:0] ReadData
 );
 
-	// Condlogic
+	// Cond_unit
 	logic [3:0] ALUFlags;
 	logic RegWrite, PCSrc;
 	
 	
 	
-	// Control unit
+	// Control_unit
 	logic [1:0] FlagW, RegSrc, ImmSrc;
 	logic [2:0] ALUControl;
 	logic PCS, RegW, MemW, MemtoReg, ALUSrc, Branch;
