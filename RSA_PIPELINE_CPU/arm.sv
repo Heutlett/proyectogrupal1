@@ -17,12 +17,13 @@ module arm // Controller and Datapath
 	// Control unit
 	logic [1:0] FlagW, RegSrc, ImmSrc;
 	logic [2:0] ALUControl;
-	logic PCS, RegW, MemW, MemtoReg, ALUSrc;
+	logic PCS, RegW, MemW, MemtoReg, ALUSrc, Branch;
+	
 	
 	control_unit c(Instr[27:26], Instr[25:20], Instr[15:12], 
 					// Salidas
 					PCS, RegW, MemtoReg, 
-					MemW, ALUControl, ALUSrc, 
+					MemW, ALUControl, Branch, ALUSrc, 
 					FlagW, ImmSrc, RegSrc);
 					
 	cond_unit cl(clk, reset, Instr[31:28], ALUFlags,

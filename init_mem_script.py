@@ -1,4 +1,4 @@
-file = open("ARM_UNICICLO/data_mem_init.dat", "w") 
+file = open("RSA_PIPELINE_CPU/data_mem_init.dat", "w") 
 
 texto = input("Ingrese el texto: ")
 

@@ -6,17 +6,16 @@ module control_unit
 	
 	output logic PCS, RegW, MemtoReg, MemW,
 	output logic [2:0] ALUControl,
-	// branch
-	
-	output logic ALUSrc,
+	output logic Branch, ALUSrc,
 	output logic [1:0] FlagW,
 	output logic [1:0] ImmSrc, RegSrc
+	
 	
 );
 
 	
 	logic [9:0] controls;
-	logic Branch, ALUOp;
+	logic ALUOp;
 	
 	// Main Decoder
 	always_comb

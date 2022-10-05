@@ -19,27 +19,17 @@ module dmem
 	always_ff @(posedge clk) begin
 		if (we) begin
 			RAM[a[13:2]] = wd;
-			$display("\n\n----Read cycle DMEM----");
+			
+			$display("\n\n---Write cycle DMEM----");
 			$display("Address (hex):---------- %h", a);
-			$display("Read data (hex):-------- %h", wd);
-			$display("Read data (dec):----- %d", wd);
+			$display("Write data (hex):------- %h", wd);
+			$display("Write data (dec):------- %d", wd);
+
 		end
 	end
 	
 	assign rd = RAM[a[13:2]];
 	
 	
-	
-	always_ff @(posedge clk)
-		if (we) begin 
-			RAM[a[13:2]] <= wd;
-			
-			$display("\n\n---Write cycle DMEM----");
-			$display("Address (hex):---------- %h", a);
-			$display("Write data (hex):------- %h", wd);
-			$display("Write data (dec):------- %d", wd);
-			
-		end
-		
 	
 endmodule
