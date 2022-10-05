@@ -1,4 +1,4 @@
-module condlogic
+module cond_unit
 (
 	input logic clk, reset,
 	input logic [3:0] Cond, //

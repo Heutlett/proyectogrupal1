@@ -1,4 +1,4 @@
-module controller
+module control_unit
 (	
 	input logic [1:0] Op,
 	input logic [5:0] Funct,

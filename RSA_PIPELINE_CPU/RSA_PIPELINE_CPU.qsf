@@ -58,14 +58,25 @@ set_global_assignment -name EDA_NATIVELINK_SIMULATION_TEST_BENCH TB_TOP -section
 set_global_assignment -name EDA_TEST_BENCH_NAME TB_TOP -section_id eda_simulation
 set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id TB_TOP
 set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME TB_TOP -section_id TB_TOP
+set_global_assignment -name EDA_TEST_BENCH_NAME TB_DMEM -section_id eda_simulation
+set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id TB_DMEM
+set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME TB_DMEM -section_id TB_DMEM
+set_global_assignment -name EDA_TEST_BENCH_NAME TB_ALU -section_id eda_simulation
+set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id TB_ALU
+set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME TB_ALU -section_id TB_ALU
+set_global_assignment -name EDA_TEST_BENCH_FILE data_mem_init.dat -section_id TB_TOP
+set_global_assignment -name EDA_TEST_BENCH_FILE inst_mem_init.dat -section_id TB_TOP
+set_global_assignment -name EDA_TEST_BENCH_FILE TB_TOP.sv -section_id TB_TOP
+set_global_assignment -name EDA_TEST_BENCH_FILE TB_DMEM.sv -section_id TB_DMEM
+set_global_assignment -name EDA_TEST_BENCH_FILE data_mem_init.dat -section_id TB_DMEM
+set_global_assignment -name EDA_TEST_BENCH_FILE TB_ALU.sv -section_id TB_ALU
 set_global_assignment -name SYSTEMVERILOG_FILE top.sv
 set_global_assignment -name SYSTEMVERILOG_FILE arm.sv
 set_global_assignment -name SYSTEMVERILOG_FILE datapath.sv
-set_global_assignment -name SYSTEMVERILOG_FILE controller.sv
-set_global_assignment -name SYSTEMVERILOG_FILE decoder.sv
-set_global_assignment -name SYSTEMVERILOG_FILE regfile.sv
-set_global_assignment -name SYSTEMVERILOG_FILE condlogic.sv
+set_global_assignment -name SYSTEMVERILOG_FILE control_unit.sv
+set_global_assignment -name SYSTEMVERILOG_FILE cond_unit.sv
 set_global_assignment -name SYSTEMVERILOG_FILE condcheck.sv
+set_global_assignment -name SYSTEMVERILOG_FILE regfile.sv
 set_global_assignment -name SYSTEMVERILOG_FILE arith_unit.sv
 set_global_assignment -name SYSTEMVERILOG_FILE alu_defs.sv
 set_global_assignment -name SYSTEMVERILOG_FILE alu.sv
@@ -80,20 +91,8 @@ set_global_assignment -name SYSTEMVERILOG_FILE clockDivider.sv
 set_global_assignment -name SYSTEMVERILOG_FILE TB_TOP.sv
 set_global_assignment -name SYSTEMVERILOG_FILE TB_DMEM.sv
 set_global_assignment -name SYSTEMVERILOG_FILE TB_ALU.sv
-set_global_assignment -name EDA_TEST_BENCH_NAME TB_DMEM -section_id eda_simulation
-set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id TB_DMEM
-set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME TB_DMEM -section_id TB_DMEM
-set_global_assignment -name EDA_TEST_BENCH_NAME TB_ALU -section_id eda_simulation
-set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id TB_ALU
-set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME TB_ALU -section_id TB_ALU
 set_global_assignment -name SYSTEMVERILOG_FILE segment_if_id.sv
 set_global_assignment -name SYSTEMVERILOG_FILE segment_id_ex.sv
-set_global_assignment -name EDA_TEST_BENCH_FILE data_mem_init.dat -section_id TB_TOP
-set_global_assignment -name EDA_TEST_BENCH_FILE inst_mem_init.dat -section_id TB_TOP
-set_global_assignment -name EDA_TEST_BENCH_FILE TB_TOP.sv -section_id TB_TOP
-set_global_assignment -name EDA_TEST_BENCH_FILE TB_DMEM.sv -section_id TB_DMEM
-set_global_assignment -name EDA_TEST_BENCH_FILE data_mem_init.dat -section_id TB_DMEM
-set_global_assignment -name EDA_TEST_BENCH_FILE TB_ALU.sv -section_id TB_ALU
 set_global_assignment -name SYSTEMVERILOG_FILE segment_ex_mem.sv
 set_global_assignment -name SYSTEMVERILOG_FILE segment_mem_wb.sv
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

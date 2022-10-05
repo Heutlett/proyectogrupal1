@@ -4,7 +4,9 @@
 								input logic [3:0] condD, FlagsD, WA3D,
 								input logic [31:0] rd1D, rd2D, ExtImmD,
 								
-								output logic PCSrcE, RegWriteE, MemtoRegE, ALUControlE, BranchE,
+								output logic PCSrcE, RegWriteE, MemtoRegE, 
+								output logic [2:0] ALUControlE, 
+								output logic BranchE,
 								output logic ALUSrcE, FlagWriteE, ImmSrcE,	
 								output logic [3:0] condE, FlagsE, WA3E,
 								output logic [31:0] rd1E, rd2E, ExtImmE
