@@ -34,7 +34,7 @@ module arm // Controller and Datapath
 	datapath dp(clk, reset, start,
 					RegSrc, RegWrite, ImmSrc,
 					ALUSrc, ALUControl,
-					MemtoReg, PCSrc,
+					MemtoReg, PCSrc, MemWrite, Branch, FlagW,
 					ALUFlags, PC, Instr,
 					ALUResult, WriteData, ReadData);
 	
