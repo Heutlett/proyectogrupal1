@@ -7,10 +7,7 @@ module alu
 	input [2:0] opcode_i,
 	output logic [N-1:0] result_o,
 	output [3:0] ALUFlags
-//	output c_o,
-//	output z_o,
-//	output n_o,
-//	output v_o
+	
 );
 	import alu_defs::*;
 	
