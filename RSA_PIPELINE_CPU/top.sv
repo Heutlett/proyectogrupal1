@@ -8,14 +8,14 @@ module top
 	logic MemWrite;
 	logic [31:0] PC, Instr, ReadData;
 	
-	
-	
-	// instantiate processor and memories
+	// Instancia del procesador
 	arm arm(clk, reset, start, PC, Instr, MemWrite, DataAdr,
 				WriteData, ReadData);
 	
+	// Memoria de instrucciones
 	imem imem(PC, clk, Instr);
 	
+	// Memoria de datos
 	dmem dmem(clk, MemWrite, DataAdr, WriteData, ReadData);
 	
 endmodule

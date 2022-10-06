@@ -1,15 +1,16 @@
 module control_unit
 (	
+	// Entradas
 	input logic [1:0] Op,
 	input logic [5:0] Funct,
 	input logic [3:0] Rd,
 	
-	output logic PCS, RegW, MemtoReg, MemW,
-	output logic [2:0] ALUControl,
-	output logic Branch, ALUSrc,
-	output logic [1:0] FlagW,
-	output logic [1:0] ImmSrc, RegSrc
-	
+	// Salidas
+	output logic PCSrcD, RegWriteD, MemtoRegD, MemWriteD,
+	output logic [2:0] ALUControlD,
+	output logic BranchD, ALUSrcD,
+	output logic [1:0] FlagWriteD,
+	output logic [1:0] ImmSrcD, RegSrcD
 	
 );
 
@@ -38,31 +39,31 @@ module control_unit
 	
 	// Señales
 	
-	// RegSrc: señal de seleccion de los dos mux que entran al banco de registros.
+	// RegSrcD: señal de seleccion de los dos mux que entran al banco de registros.
 					// El LSB (ra1mux): selecciona entre RN y "15" (pc)
 					// El MSB (ra2mux): selecciona entre RM y RD
 					
-	//	ImmSrc: señal del extensor:
+	//	ImmSrcD: señal del extensor:
 					// 00: 8-bit unsigned immediate
 					// 01: 12-bit unsigned immediate
-					// 10. 24-bit two's complement shifted branch
+					// 10. 24-bit two's complement shifted BranchD
 					
-	// ALUSrc: señal de seleccion de la entrada B del ALU.
+	// ALUSrcD: señal de seleccion de la entrada B del ALU.
 					// 0: selecciona el registro RD2.
 				   // 1: selecciona el immediato exentedido.
 	
-	// MemtoReg: señal del mux que selecciona entre el resultado de la ALU o el dato leido de mem.
+	// MemtoRegD: señal del mux que selecciona entre el resultado de la ALU o el dato leido de mem.
 					// 0: ALURESULT
 					// 1: ReadData (mem)
 	
-	// RegW: enable para escribir en el banco de registros
+	// RegWriteD: enable para escribir en el banco de registros
 	
-	// MemW: enable para escribir en la memoria
+	// MemWriteD: enable para escribir en la memoria
 	
-	// Branch: bandera del branch, se utiliza para definir el PCSrc (al final esta el assign)
+	// BranchD: bandera del branch, se utiliza para definir el PCSrc (al final esta el assign)
 	
 	// ALUOp: bandera para indicar  si se necesita la ALU, con esta se define el valor de
-	// ALUControl, abajo esta el decoder.
+	// ALUControlD, abajo esta el decoder.
 	
 		
 	//	CMP IMMEDIATE
@@ -83,32 +84,32 @@ module control_unit
 	//			10			01			1			1		  0	  1	  0		0		
 	// B
 	// 		01			10			1			0		  0	  0	  1		0		
-	assign {RegSrc, ImmSrc, ALUSrc, MemtoReg, RegW, MemW, Branch, ALUOp} = controls;
+	assign {RegSrcD, ImmSrcD, ALUSrcD, MemtoRegD, RegWriteD, MemWriteD, BranchD, ALUOp} = controls;
 	
 	// ALU Decoder
 	always_comb
 	
 		if (ALUOp) begin // which DP Instr?
 			case(Funct[4:1])
-				4'b0100: ALUControl = 3'b000; // ADD
-				4'b0010: ALUControl = 3'b001; // SUB
-				4'b0000: ALUControl = 3'b010; // AND
-				4'b1100: ALUControl = 3'b011; // ORR
-				4'b1010: ALUControl = 3'b001; // COMPARE
-				4'b1101: ALUControl = 3'b100; // MOV
-				default: ALUControl = 3'bx; // unimplemented
+				4'b0100: ALUControlD = 3'b000; // ADD
+				4'b0010: ALUControlD = 3'b001; // SUB
+				4'b0000: ALUControlD = 3'b010; // AND
+				4'b1100: ALUControlD = 3'b011; // ORR
+				4'b1010: ALUControlD = 3'b001; // COMPARE
+				4'b1101: ALUControlD = 3'b100; // MOV
+				default: ALUControlD = 3'bx; // unimplemented
 			endcase
 			
 		// update flags if S bit is set (C & V only for arith)
-		FlagW[1] = Funct[0];
-		FlagW[0] = Funct[0] & (ALUControl == 3'b000 | ALUControl == 3'b001);
+		FlagWriteD[1] = Funct[0];
+		FlagWriteD[0] = Funct[0] & (ALUControlD == 3'b000 | ALUControlD == 3'b001);
 		
 		end else begin
-			ALUControl 	= 3'b000; 	// add for non-DP instructions
-			FlagW 		= 2'b00; 		// don't update Flags
+			ALUControlD 	= 3'b000; 	// add for non-DP instructions
+			FlagWriteD 		= 2'b00; 		// don't update Flags
 		end
 		
 	// PC Logic
-	assign PCS = Branch;
+	assign PCSrcD = BranchD;
 					
 endmodule

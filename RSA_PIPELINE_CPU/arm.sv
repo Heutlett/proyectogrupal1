@@ -1,4 +1,4 @@
-module arm // Controller and Datapath
+module arm // Unidades de control y datapath
 (
 	input logic clk, reset, start,
 	output logic [31:0] PC,
@@ -12,7 +12,6 @@ module arm // Controller and Datapath
 	logic [3:0] ALUFlags;
 	logic CondEx;
 	logic [3:0] FlagsE, FlagsD;
-	
 	
 	
 	// Control_unit
