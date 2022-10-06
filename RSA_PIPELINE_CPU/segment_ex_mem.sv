@@ -3,7 +3,8 @@
 								input logic [31:0] ALUResultE, WriteDataE, 
 								input logic [3:0] WA3E,
 								output logic PCSrcM, RegWriteM, MemtoRegM, MemWriteM,
-								output logic [31:0] ALUOutM, WriteDataM, WA3M);
+								output logic [31:0] ALUOutM, WriteDataM, 
+								output logic [3:0] WA3M);
 			
 	always_ff@(negedge clk, posedge rst)
 		if(rst)

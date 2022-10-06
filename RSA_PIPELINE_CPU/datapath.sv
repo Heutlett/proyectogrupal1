@@ -15,87 +15,103 @@ module datapath
 	
 	output logic [31:0] PC,
 	input logic [31:0] InstrF,
-	output logic [31:0] ALUResult, WriteData,
+	output logic [31:0] ALUOutM, WriteDataM,
 	input logic [31:0] ReadData,
 	output logic [31:0] InstrD,
 	output logic MemWriteM
-);
+);	
 
+	// Wires
+	
+	// Fetch *****************************************************************************
+	
 	logic [31:0] PCNext, PCPlus4, PCPlus8;
-	logic [31:0] ExtImm, SrcA, SrcB, Result;
+	
+	// Decode ****************************************************************************
+	
 	logic [3:0] RA1, RA2;
+	logic [31:0] ExtImm;
+	logic [31:0] RD1D, RD2D;
+	logic PCSrcE, RegWriteE, MemtoRegE, MemWriteE, BranchE, ALUSrcE, FlagWriteE;
+	logic [2:0] ALUControlE;
+	logic [3:0] condE, WA3E;
+	logic [31:0] rd1E, rd2E, ExtImmE;
 	
-	logic [3:0] FlagsD; 
 	
+	// Execute ***************************************************************************
+	
+	logic [31:0] SrcBE, ALUResultE;
+	logic PCSrcM, RegWriteM, MemtoRegM;
+	logic [3:0] WA3M;
+	// Compuertas resultados
+	logic PCSrcEX1, PCSrcEX2, RegWriteEX, MemWriteEX, BranchEX;
+
+	// MEM *******************************************************************************
+	
+	logic PCSrcW, RegWriteW, MemtoRegW;
+	logic [31:0] ReadDataW, ALUOutW;
+	logic [3:0] WA3W;
+	
+	// WB ********************************************************************************
+	logic [31:0] Result;
+
+	
+	// Etapas:
 	
 	
 	// Fetch ---------------------------------------------------------------------
 	
-	mux2 #(32) pcmux(PCPlus4, Result, PCSrc, PCNext);
+	mux2 #(32) pcmux(PCPlus4, Result, PCSrcW, PCNext);
 	
 	flopr #(32) pcreg(clk, reset, start, PCNext, PC);
 	
 	adder #(32) pcadd1(PC, 32'b100, PCPlus4);
 	//adder #(32) pcadd2(PCPlus4, 32'b100, PCPlus8);
 	
-	segment_if_id seg_if_id (clk, rst, instrF, instrD);
+	segment_if_id seg_if_id (clk, reset, InstrF, InstrD);
 	
 	
 	// Decode ----------------------------------------------------------------------
 	
-	logic PCSrcE, RegWriteE, MemtoRegE, MemWriteE, BranchE, ALUSrcE, FlagWriteE, ImmSrcE;
-	logic [2:0] ALUControlE;
-	logic [3:0] condE, FlagsE, WA3E;
-	logic [31:0] rd1E, rd2E, ExtImmE;
 	
 	mux2 #(4) ra1mux(InstrD[19:16], 4'b1111, RegSrc[0], RA1);
 	
 	mux2 #(4) ra2mux(InstrD[3:0], InstrD[15:12], RegSrc[1], RA2);
 	
-	regfile rf(clk, RegWrite, RA1, RA2, InstrD[15:12], Result, PCPlus4,SrcA, WriteData); // quitar InstrD[15:12] mas adelante
+	regfile rf(clk, RegWriteW, RA1, RA2, WA3W, Result, PCPlus4,RD1D, RD2D); // quitar InstrD[15:12] mas adelante
 	// Tambien hay que quitar regwrite
 					
 	extend ext(InstrD[23:0], ImmSrc, ExtImm);
 	
-	segment_id_ex seg_id_ex (clk, rst, 
+	segment_id_ex seg_id_ex (clk, reset, 
 								PCSrc, RegWrite, MemtoReg, MemWrite, ALUControl,
-								Branch, ALUSrc, FlagWrite, ImmSrc, InstrD[31:28],
-								FlagsD, InstrD[15:12], SrcA, WriteData, ExtImm,
+								Branch, ALUSrc, FlagWrite, InstrD[31:28],
+								InstrD[15:12], RD1D, RD2D, ExtImm,
 								// salidas
 								PCSrcE, RegWriteE, MemtoRegE, MemWriteE,
 								ALUControlE, 
 								BranchE,
-								ALUSrcE, FlagWriteE, ImmSrcE,	
-								condE, FlagsE, WA3E,
+								ALUSrcE, FlagWriteE,	
+								condE, WA3E,
 								rd1E, rd2E, ExtImmE);
 	
 	// Execute ------------------------------------------------------------------------------
-	
-	logic [31:0] SrcBE, ALUResultE;
-	
-	logic PCSrcM, RegWriteM, MemtoRegM;
-	logic [31:0] ALUOutM, WriteDataM, WA3M;
-	
-	
-	// Compuertas resultados
-	
-	logic PCSrcEX1, PCSrcEX2, RegWriteEX, MemWriteEX, BranchEX;
 	
 	mux2 #(32) srcbmux(rd2E, ExtImmE, ALUSrcE, SrcBE);
 	
 	alu #(32) alu(rd1E, SrcBE, ALUControlE, ALUResultE, ALUFlags);
 	
-	and2 and_1 (PCSrcE, CondEx, PCSrcEX1);
+	and_2 a1 (PCSrcE, CondEx, PCSrcEX1);
 	
-	and2 and_2 (RegWriteE, CondEx, RegWriteEX);
+	and_2 a2 (RegWriteE, CondEx, RegWriteEX);
 	
-	and2 and_3 (MemWriteE, CondEx, MemWriteEX);
+	and_2 a3 (MemWriteE, CondEx, MemWriteEX);
 	
-	and2 and_4 (BranchE, CondEx, BranchEX);
+	and_2 a4 (BranchE, CondEx, BranchEX);
 	
-	or2 or_1 (PCSrcEX1, BranchEX, PCSrcEX2);
+	or_2 o1 (PCSrcEX1, BranchEX, PCSrcEX2);
 	
-	segment_ex_mem seg_ex_mem (clk, rst,
+	segment_ex_mem seg_ex_mem (clk, reset,
 								PCSrcEX2, RegWriteEX, MemtoRegE, MemWriteEX,
 								ALUResultE, rd2E, WA3E,
 								// Salidas
@@ -104,11 +120,7 @@ module datapath
 		
 	// MEM -----------------------------------------------------------------
 	
-	logic PCSrcW, RegWriteW, MemtoRegW;
-	logic [31:0] ReadDataW, ALUOutW;
-	logic [3:0] WA3W;
-	
-	segment_mem_wb seg_mem_wb (clk, rst,
+	segment_mem_wb seg_mem_wb (clk, reset,
 								PCSrcM, RegWriteM, MemtoRegM, 
 								ReadData, ALUOutM, WA3M, 
 								// salidas
@@ -117,7 +129,6 @@ module datapath
 								WA3W);
 								
 	// WB --------------------------------------------------------------------
-					
 					
 	mux2 #(32) resmux(ALUOutW, ReadDataW, MemtoRegW, Result);
 	
