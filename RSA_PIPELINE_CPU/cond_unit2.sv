@@ -4,9 +4,9 @@ module cond_unit2
 	input logic [3:0] Cond, //
 	
 	input logic [3:0] ALUFlags, //
-//	input [3:0] FlagsE, // OJO CON ESTO
-	output logic CondEx
-//	output logic [3:0] Flags
+	input [3:0] FlagsE, // OJO CON ESTO
+	output logic CondEx,
+	output logic [3:0] Flags
 	// Falta sacar las banderas y retroalimentarlas
 );
 
@@ -14,22 +14,26 @@ module cond_unit2
 	
 	
 	
-//	always_comb
-//		case (FlagW)
-//		
-//			2'b11: begin
-//				Flags[3:2] = ALUFlags[3:2];
-//				Flags[1:0] = ALUFlags[1:0];
-//			end
-//			2'b01: begin
-//				Flags[1:0] = ALUFlags[1:0];
-//			end
-//			2'b10: begin
-//				Flags[3:2] = ALUFlags[3:2];
-//			end
-//			default: Flags = FlagsE;
-//		
-//		endcase
+	always_comb
+		case (FlagW)
+		
+			2'b11: begin
+				Flags[3:2] = ALUFlags[3:2];
+				Flags[1:0] = ALUFlags[1:0];
+			end
+			2'b01: begin
+				Flags[3:2] = FlagsE[3:2];
+				Flags[1:0] = ALUFlags[1:0];
+			end
+			2'b10: begin
+				Flags[3:2] = ALUFlags[3:2];
+				Flags[1:0] = FlagsE[1:0];
+			end
+			default: begin
+				Flags = FlagsE;
+			end
+		
+		endcase
 
 	
 	always_comb
@@ -53,7 +57,7 @@ module cond_unit2
 	
 		endcase
 	
-	assign {neg, zero, carry, overflow} = ALUFlags;
+	assign {neg, zero, carry, overflow} = Flags;
 	assign ge = (neg == overflow);
 
 	

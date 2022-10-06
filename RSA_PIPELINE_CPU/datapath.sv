@@ -18,7 +18,9 @@ module datapath
 	output logic [31:0] ALUOutM, WriteDataM,
 	input logic [31:0] ReadData,
 	output logic [31:0] InstrD,
-	output logic MemWriteM
+	output logic MemWriteM, 
+	output logic [3:0] FlagsE,
+	input logic [3:0] FlagsD
 );	
 
 	// Wires
@@ -85,14 +87,14 @@ module datapath
 	
 	segment_id_ex seg_id_ex (clk, reset, 
 								PCSrc, RegWrite, MemtoReg, MemWrite, ALUControl,
-								Branch, ALUSrc, FlagWrite, InstrD[31:28],
+								Branch, ALUSrc, FlagWrite, InstrD[31:28], FlagsD,
 								InstrD[15:12], RD1D, RD2D, ExtImm,
 								// salidas
 								PCSrcE, RegWriteE, MemtoRegE, MemWriteE,
 								ALUControlE, 
 								BranchE,
 								ALUSrcE, FlagWriteE,	
-								condE, WA3E,
+								condE, FlagsE,WA3E,
 								rd1E, rd2E, ExtImmE);
 	
 	// Execute ------------------------------------------------------------------------------
