@@ -1,10 +1,10 @@
  module segment_id_ex (input logic clk, rst, 
-								input logic PCSrcD, RegWriteD, MemtoRegD, ALUControlD, BranchD,
+								input logic PCSrcD, RegWriteD, MemtoRegD, MemWriteD, ALUControlD, BranchD,
 								input logic ALUSrcD, FlagWriteD, ImmSrcD,	
 								input logic [3:0] condD, FlagsD, WA3D,
 								input logic [31:0] rd1D, rd2D, ExtImmD,
 								
-								output logic PCSrcE, RegWriteE, MemtoRegE, 
+								output logic PCSrcE, RegWriteE, MemtoRegE, MemWriteE,
 								output logic [2:0] ALUControlE, 
 								output logic BranchE,
 								output logic ALUSrcE, FlagWriteE, ImmSrcE,	
@@ -19,6 +19,7 @@
 				PCSrcE = 0;
 				RegWriteE = 0;
 				MemtoRegE = 0;
+				MemWriteE = 0;
 				ALUControlE = 0;
 				BranchE = 0;
 				ALUSrcE = 0;
@@ -37,6 +38,7 @@
 				PCSrcE = PCSrcD;
 				RegWriteE = RegWriteD;
 				MemtoRegE = MemtoRegD;
+				MemWriteE = MemWriteD;
 				ALUControlE = ALUControlD;
 				BranchE = BranchD;
 				ALUSrcE = ALUSrcD;

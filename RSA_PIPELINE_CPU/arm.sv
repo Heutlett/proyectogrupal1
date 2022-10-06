@@ -10,32 +10,35 @@ module arm // Controller and Datapath
 
 	// Cond_unit
 	logic [3:0] ALUFlags;
-	logic RegWrite, PCSrc;
+	logic CondEx;
 	
 	
 	
 	// Control_unit
 	logic [1:0] FlagW, RegSrc, ImmSrc;
 	logic [2:0] ALUControl;
-	logic PCS, RegW, MemW, MemtoReg, ALUSrc, Branch;
+	logic PCS, RegW, MemtoReg, ALUSrc, Branch;
+	logic MemWriteD;
+	
+	// Datapath
+	logic [31:0] InstrD;
 	
 	
-	control_unit c(Instr[27:26], Instr[25:20], Instr[15:12], 
+	control_unit c(InstrD[27:26], InstrD[25:20], InstrD[15:12], 
 					// Salidas
 					PCS, RegW, MemtoReg, 
-					MemW, ALUControl, Branch, ALUSrc, 
+					MemWriteD, ALUControl, Branch, ALUSrc, 
 					FlagW, ImmSrc, RegSrc);
 					
-	cond_unit cl(clk, reset, Instr[31:28], ALUFlags,
-					FlagW, PCS, RegW, MemW,
+	cond_unit2 cl(FlagW, InstrD[31:28], ALUFlags,
 					// Salidas
-					PCSrc, RegWrite, MemWrite);
+					CondEx);
 					
 	datapath dp(clk, reset, start,
-					RegSrc, RegWrite, ImmSrc,
+					RegSrc, RegW, ImmSrc,
 					ALUSrc, ALUControl,
-					MemtoReg, PCSrc, MemWrite, Branch, FlagW,
+					MemtoReg, PCS, MemWriteD, Branch, FlagW, CondEx,
 					ALUFlags, PC, Instr,
-					ALUResult, WriteData, ReadData);
+					ALUResult, WriteData, ReadData,InstrD, MemWrite);
 	
 endmodule
