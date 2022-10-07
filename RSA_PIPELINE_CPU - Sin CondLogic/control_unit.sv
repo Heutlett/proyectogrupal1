@@ -7,7 +7,7 @@ module control_unit
 	// Salidas
 	output logic RegWriteD, MemtoRegD, MemWriteD,
 	output logic [2:0] ALUControlD,
-	output logic BranchD, ALUSrcD,
+	output logic ALUSrcD,
 	output logic [1:0] ImmSrcD, RegSrcD,
 	output logic FlagsWriteD
 	

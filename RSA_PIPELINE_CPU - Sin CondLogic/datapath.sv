@@ -1,6 +1,6 @@
 module datapath
 (
-	input logic clk, reset, start, RegWrite, ALUSrc, MemtoReg, MemWrite, FlagsWriteD,
+	input logic clk, reset, RegWrite, ALUSrc, MemtoReg, MemWrite, FlagsWriteD,
 	input logic [1:0] RegSrc, ImmSrc,
 	input logic [2:0] ALUControl,
 	input logic [31:0] InstrF, ReadData, PCNext,
