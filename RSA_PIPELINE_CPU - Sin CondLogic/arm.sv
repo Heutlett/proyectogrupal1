@@ -13,8 +13,7 @@ module arm // Unidades de control y datapath
 	// Control_unit
 	logic [1:0] RegSrc, ImmSrc;
 	logic [2:0] ALUControl;
-	logic RegW, MemtoReg, ALUSrc, Branch;
-	logic MemWriteD;
+	logic RegW, MemtoReg, ALUSrc, Branch, MemWriteD, FlagsWriteD;
 	
 	// Datapath
 	logic [31:0] InstrD;
@@ -24,13 +23,13 @@ module arm // Unidades de control y datapath
 					// Salidas
 					RegW, MemtoReg, 
 					MemWriteD, ALUControl, Branch, ALUSrc, 
-					ImmSrc, RegSrc);
+					ImmSrc, RegSrc, FlagsWriteD);
 					
 					
 	datapath dp(clk, reset, start,
 					RegSrc, RegW, ImmSrc,
 					ALUSrc, ALUControl,
-					MemtoReg, MemWriteD, Branch,
+					MemtoReg, MemWriteD, Branch, FlagsWriteD, 
 					// Salidas
 					PC, Instr,
 					ALUResult, WriteData, ReadData,InstrD, MemWrite);

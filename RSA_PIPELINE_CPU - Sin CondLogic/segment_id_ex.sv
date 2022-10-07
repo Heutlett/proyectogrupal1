@@ -3,14 +3,14 @@
 								input logic [2:0] ALUControlD, 
 								input logic BranchD,
 								input logic ALUSrcD, 	
-								input logic [3:0] WA3D,
-								input logic [31:0] rd1D, rd2D, ExtImmD,
+								input logic [3:0] WA3D, CondD,
+								input logic [31:0] rd1D, rd2D, ExtImmD, 
 								
 								output logic RegWriteE, MemtoRegE, MemWriteE,
 								output logic [2:0] ALUControlE, 
 								output logic BranchE,
 								output logic ALUSrcE,	
-								output logic [3:0] WA3E,
+								output logic [3:0] WA3E, CondE,
 								output logic [31:0] rd1E, rd2E, ExtImmE
 								
 								);
@@ -28,6 +28,7 @@
 				rd1E = 0;
 				rd2E = 0; 
 				ExtImmE = 0;
+				CondE = 0;
 			end
 			
 		else 
@@ -42,6 +43,7 @@
 				rd1E = rd1D;
 				rd2E = rd2D;
 				ExtImmE = ExtImmD;
+				CondE = CondD;
 			end
 		
 endmodule

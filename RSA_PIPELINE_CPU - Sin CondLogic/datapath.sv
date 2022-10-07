@@ -7,7 +7,7 @@ module datapath
 	input logic [1:0] ImmSrc,
 	input logic ALUSrc,
 	input logic [2:0] ALUControl,
-	input logic MemtoReg, MemWrite, Branch,
+	input logic MemtoReg, MemWrite, Branch, FlagsWriteD,
 	
 	output logic [31:0] PC,
 	input logic [31:0] InstrF,
@@ -30,7 +30,7 @@ module datapath
 	logic [31:0] RD1D, RD2D;
 	logic RegWriteE, MemtoRegE, MemWriteE, BranchE, ALUSrcE, FlagWriteE;
 	logic [2:0] ALUControlE;
-	logic [3:0] condE, WA3E;
+	logic [3:0] CondE, WA3E;
 	logic [31:0] rd1E, rd2E, ExtImmE;
 	
 	
@@ -84,13 +84,13 @@ module datapath
 								ALUControl,
 								Branch, 
 								ALUSrc, 
-								InstrD[15:12], RD1D, RD2D, ExtImm,
+								InstrD[15:12], InstrD[31:28], RD1D, RD2D, ExtImm,
 								// salidas
 								RegWriteE, MemtoRegE, MemWriteE,
 								ALUControlE, 
 								BranchE,
 								ALUSrcE, 
-								condE, WA3E,
+								WA3E,CondE,
 								rd1E, rd2E, ExtImmE);
 	
 	// Execute ------------------------------------------------------------------------------
