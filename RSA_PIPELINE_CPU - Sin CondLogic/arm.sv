@@ -36,14 +36,15 @@ module arm // Unidades de control y datapath
 	pc_control_unit pcu(
 					.clk(clk), 
 					.reset(reset),
-					.Branch(BranchW), 
+					.Branch(Instr[27:26]), 
 					.FlagsWrite(FlagsWriteW),
-					.Cond(CondW), 
+					.Cond(Instr[31:28]), 
 					.ALUFlags(ALUFlagsW),
 					.Imm(Instr[23:0]),
 					.PCF(PCF),
 					.PCSrc(PCSrc),
-					.PCNext(PC)
+					.PCNext(PC),
+					.start(start)
 
 	);
 	
@@ -54,6 +55,6 @@ module arm // Unidades de control y datapath
 					MemtoReg, MemWriteD, Branch, FlagsWriteD, PCSrc,
 					// Salidas
 					PCF, Instr,
-					ALUResult, WriteData, ReadData,InstrD, MemWrite, BranchW, FlagsWriteW, CondW, ALUFlagsW);
+					ALUResult, WriteData, ReadData,InstrD, MemWrite, BranchW, FlagsWriteW, CondW, ALUFlagsW, PC);
 	
 endmodule

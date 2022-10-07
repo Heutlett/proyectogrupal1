@@ -5,7 +5,7 @@
 								input logic ALUSrcD,
 								input logic FlagsWriteD,
 								input logic [3:0] WA3D, CondD,
-								input logic [31:0] rd1D, rd2D, ExtImmD,
+								input logic [31:0] rd1D, rd2D, ExtImmD, PCD,
 								
 								output logic RegWriteE, MemtoRegE, MemWriteE,
 								output logic [2:0] ALUControlE, 
@@ -13,7 +13,7 @@
 								output logic ALUSrcE,
 								output logic FlagsWriteE,
 								output logic [3:0] WA3E, CondE,
-								output logic [31:0] rd1E, rd2E, ExtImmE
+								output logic [31:0] rd1E, rd2E, ExtImmE, PCE
 								
 								);
 			
@@ -32,6 +32,7 @@
 				ExtImmE = 0;
 				CondE = 0;
 				FlagsWriteE = 0;
+				PCE = 0;
 			end
 			
 		else 
@@ -48,6 +49,7 @@
 				ExtImmE = ExtImmD;
 				CondE = CondD;
 				FlagsWriteE = FlagsWriteD;
+				PCE = PCD;
 			end
 		
 endmodule

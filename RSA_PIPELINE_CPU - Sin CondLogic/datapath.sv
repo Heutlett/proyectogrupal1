@@ -9,21 +9,22 @@ module datapath
 	input logic [2:0] ALUControl,
 	input logic MemtoReg, MemWrite, Branch, FlagsWriteD, PCSrc,
 
-	output logic [31:0] PCF,
+	output logic [31:0] PCW,
 	input logic [31:0] InstrF,
 	output logic [31:0] ALUOutM, WriteDataM,
 	input logic [31:0] ReadData,
 	output logic [31:0] InstrD,
 	output logic MemWriteM, BranchW, FlagsWriteW, 
 	output logic [3:0] CondW,
-	output logic [3:0] ALUFlagsW
+	output logic [3:0] ALUFlagsW,
+	input logic [31:0] PCNext
 );	
 
 	// Wires
 	
 	// Fetch *****************************************************************************
 	
-	logic [31:0] PCPlus4, PCD, PCNext;
+	logic [31:0] PCPlus4, PCF, PCD;
 	
 	// Decode ****************************************************************************
 	
@@ -38,7 +39,7 @@ module datapath
 	
 	// Execute ***************************************************************************
 	
-	logic [31:0] SrcBE, ALUResultE;
+	logic [31:0] SrcBE, ALUResultE, PCM;
 	logic BranchM, RegWriteM, MemtoRegM, FlagsWriteM;
 	logic [3:0] WA3M, CondM, ALUFlagsM;
 	// Compuertas resultados
@@ -59,14 +60,14 @@ module datapath
 	
 	// Fetch ---------------------------------------------------------------------
 	
-	mux2 #(32) pcmux(PCPlus4, Result, PCSrc, PCNext);
+	//mux2 #(32) pcmux(PCPlus4, Result, PCSrc, PCNext);
 	
-	flopr #(32) pcreg(clk, reset, start, PCNext, PCF);
+	//flopr #(32) pcreg(clk, reset, start, PCNext, PCF);
 	
-	adder #(32) pcadd1(PCF, 32'b100, PCPlus4);
+	//adder #(32) pcadd1(PCF, 32'b100, PCPlus4);
 	//adder #(32) pcadd2(PCPlus4, 32'b100, PCPlus8);
 	
-	segment_if_id seg_if_id (clk, reset, InstrF, InstrD);
+	segment_if_id seg_if_id (clk, reset, InstrF, PCNext, InstrD, PCD);
 	
 	
 	// Decode ----------------------------------------------------------------------
@@ -87,7 +88,7 @@ module datapath
 								Branch, 
 								ALUSrc, 
 								FlagsWriteD,
-								InstrD[15:12], InstrD[31:28], RD1D, RD2D, ExtImm,
+								InstrD[15:12], InstrD[31:28], RD1D, RD2D, ExtImm, PCD,
 								// salidas
 								RegWriteE, MemtoRegE, MemWriteE,
 								ALUControlE, 
@@ -95,7 +96,7 @@ module datapath
 								ALUSrcE, 
 								FlagsWriteE,
 								WA3E,CondE,
-								rd1E, rd2E, ExtImmE);
+								rd1E, rd2E, ExtImmE, PCE);
 	
 	// Execute ------------------------------------------------------------------------------
 	
@@ -115,19 +116,20 @@ module datapath
 	
 	segment_ex_mem seg_ex_mem (clk, reset,
 								BranchE, RegWriteE, MemtoRegE, MemWriteE, FlagsWriteE,
-								ALUResultE, rd2E, WA3E, CondE, ALUFlagsE,
+								ALUResultE, rd2E, PCE, WA3E, CondE, ALUFlagsE,
 								// Salidas
 								BranchM, RegWriteM, MemtoRegM, MemWriteM, FlagsWriteM,
-								ALUOutM, WriteDataM, WA3M, CondM, ALUFlagsM);
+								ALUOutM, WriteDataM, PCM, WA3M, CondM, ALUFlagsM);
 		
 	// MEM -----------------------------------------------------------------
 	
 	segment_mem_wb seg_mem_wb (clk, reset,
 								BranchM, RegWriteM, MemtoRegM, FlagsWriteM,
-								ReadData, ALUOutM, WA3M, CondM, ALUFlagsM,
+								ReadData, ALUOutM, PCM, 
+								WA3M, CondM, ALUFlagsM,
 								// salidas
 								BranchW, RegWriteW, MemtoRegW, FlagsWriteW,
-								ReadDataW, ALUOutW, 
+								ReadDataW, ALUOutW, PCW,
 								WA3W, CondW, ALUFlagsW);
 								
 	// WB --------------------------------------------------------------------

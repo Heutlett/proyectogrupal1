@@ -1,9 +1,9 @@
  module segment_ex_mem (input logic clk, rst,
 								input logic PCSrcE, RegWriteE, MemtoRegE, MemWriteE, FlagsWriteE,
-								input logic [31:0] ALUResultE, WriteDataE, 
+								input logic [31:0] ALUResultE, WriteDataE, PCE,
 								input logic [3:0] WA3E, CondE, ALUFlagsE,
 								output logic PCSrcM, RegWriteM, MemtoRegM, MemWriteM, FlagsWriteM,
-								output logic [31:0] ALUOutM, WriteDataM, 
+								output logic [31:0] ALUOutM, WriteDataM, PCM, 
 								output logic [3:0] WA3M, CondM, ALUFlagsM);
 			
 	always_ff@(negedge clk, posedge rst)
@@ -20,6 +20,7 @@
 				CondM = 0;
 				FlagsWriteM = 0;
 				ALUFlagsM = 0;
+				PCM = 0;
 				
 			end
 			
@@ -36,6 +37,7 @@
 				CondM = CondE;
 				FlagsWriteM = FlagsWriteE;
 				ALUFlagsM = ALUFlagsE;
+				PCM = PCE;
 				
 			end
 		
