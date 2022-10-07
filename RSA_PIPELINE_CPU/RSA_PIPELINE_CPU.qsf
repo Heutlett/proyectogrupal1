@@ -74,10 +74,9 @@ set_global_assignment -name LICENSE_FILE inst_mem_init.dat
 set_global_assignment -name LICENSE_FILE data_mem_init.dat
 set_global_assignment -name SYSTEMVERILOG_FILE top.sv
 set_global_assignment -name SYSTEMVERILOG_FILE arm.sv
-set_global_assignment -name SYSTEMVERILOG_FILE control_unit.sv
-set_global_assignment -name SYSTEMVERILOG_FILE cond_unit.sv
-set_global_assignment -name SYSTEMVERILOG_FILE cond_unit2.sv
+set_global_assignment -name SYSTEMVERILOG_FILE pc_control_unit.sv
 set_global_assignment -name SYSTEMVERILOG_FILE condcheck.sv
+set_global_assignment -name SYSTEMVERILOG_FILE control_unit.sv
 set_global_assignment -name SYSTEMVERILOG_FILE datapath.sv
 set_global_assignment -name SYSTEMVERILOG_FILE segment_if_id.sv
 set_global_assignment -name SYSTEMVERILOG_FILE segment_id_ex.sv
@@ -95,8 +94,6 @@ set_global_assignment -name SYSTEMVERILOG_FILE flopenr.sv
 set_global_assignment -name SYSTEMVERILOG_FILE extend.sv
 set_global_assignment -name SYSTEMVERILOG_FILE adder.sv
 set_global_assignment -name SYSTEMVERILOG_FILE clockDivider.sv
-set_global_assignment -name SYSTEMVERILOG_FILE and_2.sv
-set_global_assignment -name SYSTEMVERILOG_FILE or_2.sv
 set_global_assignment -name SYSTEMVERILOG_FILE TB_TOP.sv
 set_global_assignment -name SYSTEMVERILOG_FILE TB_DMEM.sv
 set_global_assignment -name SYSTEMVERILOG_FILE TB_ALU.sv

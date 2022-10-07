@@ -3,37 +3,36 @@ module control_unit
 	// Entradas
 	input logic [1:0] Op,
 	input logic [5:0] Funct,
-	input logic [3:0] Rd,
 	
 	// Salidas
-	output logic PCSrcD, RegWriteD, MemtoRegD, MemWriteD,
+	output logic RegWriteD, MemtoRegD, MemWriteD,
 	output logic [2:0] ALUControlD,
-	output logic BranchD, ALUSrcD,
-	output logic [1:0] FlagWriteD,
-	output logic [1:0] ImmSrcD, RegSrcD
+	output logic ALUSrcD,
+	output logic [1:0] ImmSrcD, RegSrcD,
+	output logic FlagsWriteD
 	
 );
 
 	
-	logic [9:0] controls;
+	logic [10:0] controls;
 	logic ALUOp;
 	
 	// Main Decoder
 	always_comb
 		casex(Op)
 										
-			2'b00: if (Funct[5] & Funct[4:1] == 4'b1010) 		controls = 10'b0000100001; // CMP Immediate
-					else if(!Funct[5] & Funct[4:1] == 4'b1010) 	controls = 10'b0000000001; // CMP Register
+			2'b00: if (Funct[5] & Funct[4:1] == 4'b1010) 		controls = 11'b10000100001; // CMP Immediate
+					else if(!Funct[5] & Funct[4:1] == 4'b1010) 	controls = 11'b10000000001; // CMP Register
 					
-					else if(Funct[5])										controls = 10'b0000101001; // Data-processing immediate			
-					else 														controls = 10'b0000001001; // Data-processing register 
+					else if(Funct[5])										controls = 11'b00000101001; // Data-processing immediate			
+					else 														controls = 11'b00000001001; // Data-processing register 
 				
-			2'b01: if (Funct[0])											controls = 10'b0001111000; // LDR														    				
-			else 					 											controls = 10'b1001110100; // STR
+			2'b01: if (Funct[0])											controls = 11'b00001111000; // LDR														    				
+			else 					 											controls = 11'b01001110100; // STR
 										
-			2'b10: 															controls = 10'b0110100010; // Be
-										
-			default: 														controls = 10'bx; 		    // Unimplemented
+			2'b10: 															controls = 11'b00110100010; // Be
+
+			default: 														controls = 11'bx; 		    // Unimplemented
 			
 		endcase
 	
@@ -67,49 +66,36 @@ module control_unit
 	
 		
 	//	CMP IMMEDIATE
-	//			00			00			1			0		  0     0     0      1
+	//			1					00			00			1			0		  		0     	0     	0      	1
 	//	CMP REGISTER			
-	//			00			00			0			0		  0	  0	  0		1
+	//			1					00			00			0			0		  		0	  		0	  		0			1
 	// Data-processing immediate
-	//			00			00			1			0	  	  1	  0	  0		1		
+	//			0					00			00			1			0	  	  		1	  		0	  		0			1		
 	// Data-processing register
-	// 		00			00			0			0		  1	  0	  0		1		
+	// 		0					00			00			0			0		  		1	  		0	  		0			1		
 	// LDR
-	//			00			01			1			1		  1	  0	  0		0		
+	//			0					00			01			1			1		  		1	  		0	  		0			0		
 	// LDRB
-	//			00			01			1			1		  1	  0	  0	   0		
+	//			0					00			01			1			1		  		1	  		0	  		0	   	0		
 	// STR
-	// 		10			01			1			1		  0	  1	  0		0		
+	// 		0					10			01			1			1		  		0	  		1	  		0			0		
 	// STRB
-	//			10			01			1			1		  0	  1	  0		0		
+	//			0 					10			01			1			1		  		0	  		1	  		0			0		
 	// B
-	// 		01			10			1			0		  0	  0	  1		0		
-	assign {RegSrcD, ImmSrcD, ALUSrcD, MemtoRegD, RegWriteD, MemWriteD, BranchD, ALUOp} = controls;
+	// 		0					01			10			1			0		  		0	  		0	 		1			0		
+	assign {FlagsWriteD, RegSrcD, ImmSrcD, ALUSrcD, MemtoRegD, RegWriteD, MemWriteD, BranchD, ALUOp} = controls;
 	
 	// ALU Decoder
 	always_comb
-	
-		if (ALUOp) begin // which DP Instr?
-			case(Funct[4:1])
-				4'b0100: ALUControlD = 3'b000; // ADD
-				4'b0010: ALUControlD = 3'b001; // SUB
-				4'b0000: ALUControlD = 3'b010; // AND
-				4'b1100: ALUControlD = 3'b011; // ORR
-				4'b1010: ALUControlD = 3'b001; // COMPARE
-				4'b1101: ALUControlD = 3'b100; // MOV
-				default: ALUControlD = 3'bx; // unimplemented
-			endcase
-			
-		// update flags if S bit is set (C & V only for arith)
-		FlagWriteD[1] = Funct[0];
-		FlagWriteD[0] = Funct[0] & (ALUControlD == 3'b000 | ALUControlD == 3'b001);
+		case(Funct[4:1])
+			4'b0100: ALUControlD = 3'b000; // ADD
+			4'b0010: ALUControlD = 3'b001; // SUB
+			4'b0000: ALUControlD = 3'b010; // AND
+			4'b1100: ALUControlD = 3'b011; // ORR
+			4'b1010: ALUControlD = 3'b001; // COMPARE
+			4'b1101: ALUControlD = 3'b100; // MOV
+			default: ALUControlD = 3'bx; // unimplemented
+		endcase
 		
-		end else begin
-			ALUControlD 	= 3'b000; 	// add for non-DP instructions
-			FlagWriteD 		= 2'b00; 		// don't update Flags
-		end
-		
-	// PC Logic
-	assign PCSrcD = BranchD;
 					
 endmodule
