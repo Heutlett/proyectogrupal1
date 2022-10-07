@@ -28,25 +28,25 @@ module datapath
 	logic [3:0] RA1, RA2;
 	logic [31:0] ExtImm;
 	logic [31:0] RD1D, RD2D;
-	logic RegWriteE, MemtoRegE, MemWriteE, BranchE, ALUSrcE, FlagWriteE;
+	logic RegWriteE, MemtoRegE, MemWriteE, BranchE, ALUSrcE, FlagsWriteE;
 	logic [2:0] ALUControlE;
-	logic [3:0] CondE, WA3E;
+	logic [3:0] CondE, WA3E, ALUFlagsE;
 	logic [31:0] rd1E, rd2E, ExtImmE;
 	
 	
 	// Execute ***************************************************************************
 	
 	logic [31:0] SrcBE, ALUResultE;
-	logic PCSrcM, RegWriteM, MemtoRegM;
-	logic [3:0] WA3M;
+	logic BranchM, RegWriteM, MemtoRegM, FlagsWriteM;
+	logic [3:0] WA3M, CondM, ALUFlagsM;
 	// Compuertas resultados
 	//logic PCSrcEX1, PCSrcEX2, RegWriteEX, MemWriteEX, BranchEX;
 
 	// MEM *******************************************************************************
 	
-	logic PCSrcW, RegWriteW, MemtoRegW;
+	logic BranchW, RegWriteW, MemtoRegW, FlagsWriteW;
 	logic [31:0] ReadDataW, ALUOutW;
-	logic [3:0] WA3W;
+	logic [3:0] WA3W, CondW, ALUFlagsW;
 	
 	// WB ********************************************************************************
 	logic [31:0] Result;
@@ -57,7 +57,7 @@ module datapath
 	
 	// Fetch ---------------------------------------------------------------------
 	
-	mux2 #(32) pcmux(PCPlus4, Result, PCSrcW, PCNext);
+	mux2 #(32) pcmux(PCPlus4, Result, BranchW, PCNext);
 	
 	flopr #(32) pcreg(clk, reset, start, PCNext, PC);
 	
@@ -84,12 +84,14 @@ module datapath
 								ALUControl,
 								Branch, 
 								ALUSrc, 
+								FlagsWriteD,
 								InstrD[15:12], InstrD[31:28], RD1D, RD2D, ExtImm,
 								// salidas
 								RegWriteE, MemtoRegE, MemWriteE,
 								ALUControlE, 
 								BranchE,
 								ALUSrcE, 
+								FlagsWriteE,
 								WA3E,CondE,
 								rd1E, rd2E, ExtImmE);
 	
@@ -97,7 +99,7 @@ module datapath
 	
 	mux2 #(32) srcbmux(rd2E, ExtImmE, ALUSrcE, SrcBE);
 	
-	alu #(32) alu(rd1E, SrcBE, ALUControlE, ALUResultE, ALUFlags); // Las ALU FLAGS ESTÁN HACIENDO NADA
+	alu #(32) alu(rd1E, SrcBE, ALUControlE, ALUResultE, ALUFlagsE); // Las ALU FLAGS ESTÁN HACIENDO NADA
 	
 //	and_2 a1 (PCSrcE, CondEx, PCSrcEX1);
 //	
@@ -110,21 +112,21 @@ module datapath
 //	or_2 o1 (PCSrcEX1, BranchEX, PCSrcEX2);
 	
 	segment_ex_mem seg_ex_mem (clk, reset,
-								BranchE, RegWriteE, MemtoRegE, MemWriteE,
-								ALUResultE, rd2E, WA3E,
+								BranchE, RegWriteE, MemtoRegE, MemWriteE, FlagsWriteE,
+								ALUResultE, rd2E, WA3E, CondE, ALUFlagsE,
 								// Salidas
-								PCSrcM, RegWriteM, MemtoRegM, MemWriteM,
-								ALUOutM, WriteDataM, WA3M);
+								BranchM, RegWriteM, MemtoRegM, MemWriteM, FlagsWriteM,
+								ALUOutM, WriteDataM, WA3M, CondM, ALUFlagsM);
 		
 	// MEM -----------------------------------------------------------------
 	
 	segment_mem_wb seg_mem_wb (clk, reset,
-								PCSrcM, RegWriteM, MemtoRegM, 
-								ReadData, ALUOutM, WA3M, 
+								BranchM, RegWriteM, MemtoRegM, FlagsWriteM,
+								ReadData, ALUOutM, WA3M, CondM, ALUFlagsM,
 								// salidas
-								PCSrcW, RegWriteW, MemtoRegW,
+								BranchW, RegWriteW, MemtoRegW, FlagsWriteW,
 								ReadDataW, ALUOutW, 
-								WA3W);
+								WA3W, CondW, ALUFlagsW);
 								
 	// WB --------------------------------------------------------------------
 					

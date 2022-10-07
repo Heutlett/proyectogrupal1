@@ -1,10 +1,10 @@
  module segment_mem_wb (input logic clk, rst,
-								input logic PCSrcM, RegWriteM, MemtoRegM, 
+								input logic PCSrcM, RegWriteM, MemtoRegM, FlagsWriteM,
 								input logic [31:0] ReadDataM, ALUOutM,
-								input logic [3:0] WA3M, 
-								output logic PCSrcW, RegWriteW, MemtoRegW,
+								input logic [3:0] WA3M, CondM, ALUFlagsM,
+								output logic PCSrcW, RegWriteW, MemtoRegW, FlagsWriteW,
 								output logic [31:0] ReadDataW, ALUOutW, 
-								output logic [3:0] WA3W);
+								output logic [3:0] WA3W, CondW, ALUFlagsW);
 			
 	always_ff@(negedge clk, posedge rst)
 		if(rst)
@@ -16,6 +16,9 @@
 				ReadDataW = 0;
 				ALUOutW = 0;
 				WA3W = 0;
+				CondW = 0; 
+				FlagsWriteW = 0;
+				ALUFlagsW = 0;
 				
 			end
 			
@@ -28,6 +31,9 @@
 				ReadDataW = ReadDataM;
 				ALUOutW = ALUOutM;
 				WA3W = WA3M;
+				CondW = CondM;
+				FlagsWriteW = FlagsWriteM;
+				ALUFlagsW = ALUFlagsM;
 				
 			end
 		
