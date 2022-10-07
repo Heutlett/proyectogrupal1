@@ -31,7 +31,7 @@ module control_unit
 			else 					 											controls = 11'b01001110100; // STR
 										
 			2'b10: 															controls = 11'b00110100010; // Be
-										
+
 			default: 														controls = 11'bx; 		    // Unimplemented
 			
 		endcase

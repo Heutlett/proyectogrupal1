@@ -5,7 +5,7 @@
 								input logic ALUSrcD,
 								input logic FlagsWriteD,
 								input logic [3:0] WA3D, CondD,
-								input logic [31:0] rd1D, rd2D, ExtImmD, 
+								input logic [31:0] rd1D, rd2D, ExtImmD,
 								
 								output logic RegWriteE, MemtoRegE, MemWriteE,
 								output logic [2:0] ALUControlE, 

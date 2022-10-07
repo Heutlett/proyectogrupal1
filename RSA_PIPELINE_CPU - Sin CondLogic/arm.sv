@@ -15,8 +15,15 @@ module arm // Unidades de control y datapath
 	logic [2:0] ALUControl;
 	logic RegW, MemtoReg, ALUSrc, Branch, MemWriteD, FlagsWriteD;
 	
+	// PC Control Unit
+	
+	logic PCSrc;
+	
+	
 	// Datapath
-	logic [31:0] InstrD;
+	logic [31:0] InstrD, PCF;
+	logic [3:0] CondW, ALUFlagsW;
+	logic BranchW, FlagsWriteW;
 	
 	
 	control_unit c(InstrD[27:26], InstrD[25:20],
@@ -25,13 +32,28 @@ module arm // Unidades de control y datapath
 					MemWriteD, ALUControl, Branch, ALUSrc, 
 					ImmSrc, RegSrc, FlagsWriteD);
 					
+	
+	pc_control_unit pcu(
+					.clk(clk), 
+					.reset(reset),
+					.Branch(BranchW), 
+					.FlagsWrite(FlagsWriteW),
+					.Cond(CondW), 
+					.ALUFlags(ALUFlagsW),
+					.Imm(Instr[23:0]),
+					.PCF(PCF),
+					.PCSrc(PCSrc),
+					.PCNext(PC)
+
+	);
+	
 					
 	datapath dp(clk, reset, start,
 					RegSrc, RegW, ImmSrc,
 					ALUSrc, ALUControl,
-					MemtoReg, MemWriteD, Branch, FlagsWriteD, 
+					MemtoReg, MemWriteD, Branch, FlagsWriteD, PCSrc,
 					// Salidas
-					PC, Instr,
-					ALUResult, WriteData, ReadData,InstrD, MemWrite);
+					PCF, Instr,
+					ALUResult, WriteData, ReadData,InstrD, MemWrite, BranchW, FlagsWriteW, CondW, ALUFlagsW);
 	
 endmodule

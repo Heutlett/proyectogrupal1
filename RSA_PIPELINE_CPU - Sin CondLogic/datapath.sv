@@ -7,21 +7,23 @@ module datapath
 	input logic [1:0] ImmSrc,
 	input logic ALUSrc,
 	input logic [2:0] ALUControl,
-	input logic MemtoReg, MemWrite, Branch, FlagsWriteD,
-	
-	output logic [31:0] PC,
+	input logic MemtoReg, MemWrite, Branch, FlagsWriteD, PCSrc,
+
+	output logic [31:0] PCF,
 	input logic [31:0] InstrF,
 	output logic [31:0] ALUOutM, WriteDataM,
 	input logic [31:0] ReadData,
 	output logic [31:0] InstrD,
-	output logic MemWriteM
+	output logic MemWriteM, BranchW, FlagsWriteW, 
+	output logic [3:0] CondW,
+	output logic [3:0] ALUFlagsW
 );	
 
 	// Wires
 	
 	// Fetch *****************************************************************************
 	
-	logic [31:0] PCNext, PCPlus4, PCPlus8;
+	logic [31:0] PCPlus4, PCD, PCNext;
 	
 	// Decode ****************************************************************************
 	
@@ -31,7 +33,7 @@ module datapath
 	logic RegWriteE, MemtoRegE, MemWriteE, BranchE, ALUSrcE, FlagsWriteE;
 	logic [2:0] ALUControlE;
 	logic [3:0] CondE, WA3E, ALUFlagsE;
-	logic [31:0] rd1E, rd2E, ExtImmE;
+	logic [31:0] rd1E, rd2E, ExtImmE, PCE;
 	
 	
 	// Execute ***************************************************************************
@@ -44,9 +46,9 @@ module datapath
 
 	// MEM *******************************************************************************
 	
-	logic BranchW, RegWriteW, MemtoRegW, FlagsWriteW;
+	logic RegWriteW, MemtoRegW;
 	logic [31:0] ReadDataW, ALUOutW;
-	logic [3:0] WA3W, CondW, ALUFlagsW;
+	logic [3:0] WA3W;
 	
 	// WB ********************************************************************************
 	logic [31:0] Result;
@@ -57,11 +59,11 @@ module datapath
 	
 	// Fetch ---------------------------------------------------------------------
 	
-	mux2 #(32) pcmux(PCPlus4, Result, BranchW, PCNext);
+	mux2 #(32) pcmux(PCPlus4, Result, PCSrc, PCNext);
 	
-	flopr #(32) pcreg(clk, reset, start, PCNext, PC);
+	flopr #(32) pcreg(clk, reset, start, PCNext, PCF);
 	
-	adder #(32) pcadd1(PC, 32'b100, PCPlus4);
+	adder #(32) pcadd1(PCF, 32'b100, PCPlus4);
 	//adder #(32) pcadd2(PCPlus4, 32'b100, PCPlus8);
 	
 	segment_if_id seg_if_id (clk, reset, InstrF, InstrD);
