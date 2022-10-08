@@ -1,7 +1,7 @@
 .global _start
 _start:
 	
-	MOV		r1,#5
+	MOV		r1,#1
 	MOV		r2,#10
 	
 	// Stall
@@ -13,6 +13,9 @@ _start:
 	// Stall
 	
 	ADD		r3,r1,r2
+	SUB		r4,r2,r1
+	AND		r5,r1,r2
+	ORR		r6,r1,r2
 	
 	// Stall
 	MOV     r0,#0
@@ -22,10 +25,12 @@ _start:
 	MOV     r0,#0
 	// Stall
 	
-	STR		r1,[r0,#4]
-	STR		r2,[r0,#8]
-	STR		r3,[r0,#12]
-	LDR		r4,[r0]
+	STR		r3,[r0,#8]
+	STR		r4,[r0,#12]
+	STR		r5,[r0,#16]
+	STR		r6,[r0,#20]
+	
+	LDR		r7,[r0,#4]
 	
 	// Stall
 	MOV     r0,#0
@@ -35,10 +40,9 @@ _start:
 	MOV     r0,#0
 	// Stall
 	
-	STR		r4,[r0,#16]
+	STR		r7,[r0,#4]
 	
-	
-	cmp r4, #53
+	cmp r7, #7
 	// Stall
 	MOV     r0,#0
 	MOV     r0,#0
@@ -52,7 +56,7 @@ _start:
 	
 salto:
 	
-	mov r5, #66
+	cmp r1, #10
 	// Stall
 	MOV     r0,#0
 	MOV     r0,#0
@@ -60,12 +64,24 @@ salto:
 	MOV     r0,#0
 	MOV     r0,#0
 	// Stall
-	STR		r5,[r0,#20]
+	beq fin
+	STR		r1,[r0,#20]
 	
+	add r1, r1, #1
+	// Stall
+	MOV     r0,#0
+	MOV     r0,#0
+	MOV     r0,#0
+	MOV     r0,#0
+	MOV     r0,#0
+	// Stall
+	
+	b salto
 	
 
 fin:
 	
+	STR r1, [r0]
 
 	
 	

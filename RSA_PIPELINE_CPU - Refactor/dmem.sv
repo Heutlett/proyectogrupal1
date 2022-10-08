@@ -2,7 +2,8 @@ module dmem
 (
 	input logic clk, we,
 	input logic [31:0] a, wd,
-	output logic [31:0] rd
+	output logic [31:0] rd,
+	output logic [3:0] result
 );
 
 	logic ram_select;
@@ -29,6 +30,7 @@ module dmem
 	end
 	
 	assign rd = RAM[a[13:2]];
+	assign result = RAM[0];
 	
 	
 	

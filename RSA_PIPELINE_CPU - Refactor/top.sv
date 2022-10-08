@@ -1,7 +1,8 @@
 //import arm_const::*;
 module top
 (
-	input logic clk, reset, start
+	input logic clk, reset, start,
+	output logic [3:0] result
 );
 	
 	logic [31:0] WriteData, DataAdr;
@@ -16,6 +17,6 @@ module top
 	imem imem(PC, clk, Instr);
 	
 	// Memoria de datos
-	dmem dmem(clk, MemWrite, DataAdr, WriteData, ReadData);
+	dmem dmem(clk, MemWrite, DataAdr, WriteData, ReadData, result);
 	
 endmodule

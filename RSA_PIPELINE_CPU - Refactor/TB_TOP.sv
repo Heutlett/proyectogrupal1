@@ -2,11 +2,15 @@ module TB_TOP();
 	logic clk;
 	logic reset;
 	logic start;
-	logic [31:0] WriteData, DataAdr;
-	logic MemWrite;
+	logic [3:0] result;
 	
 	// instantiate device to be tested
-	top dut(.clk(clk), .reset(reset), .start(start));
+	top dut(
+		.clk(clk), 
+		.reset(reset), 
+		.start(start), 
+		.result(result)
+	);
 	
 	// initialize test
 	initial begin
@@ -20,13 +24,5 @@ module TB_TOP();
 		clk <= 1; # 5; clk <= 0; # 5;
 	end
 	
-	// check that 7 gets written to address 0x64	
-	// at end of program
-	always @(negedge clk)
-	begin
-		if(MemWrite) begin
-
-		end
-	end
 		
 endmodule
