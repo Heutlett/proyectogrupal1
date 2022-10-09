@@ -81,7 +81,7 @@ salto:
 
 fin:
 	
-	STR r1, [r0]
+	cmp r1, #10
 
 	
 	
