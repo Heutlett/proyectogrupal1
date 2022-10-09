@@ -5,7 +5,8 @@ module arm // Unidades de control y datapath
 	input logic [31:0] Instr,
 	output logic MemWrite,
 	output logic [31:0] ALUResult, WriteData,
-	input logic [31:0] ReadData
+	input logic [31:0] ReadData,
+	output logic FlagZero
 );
 
 	
@@ -33,7 +34,8 @@ module arm // Unidades de control y datapath
 					.ALUFlags(ALUFlagsW),
 					.Imm(Instr[23:0]),
 					// Salidas
-					.PCNext(PC)
+					.PCNext(PC),
+					.FlagZero(FlagZero)
 					
 
 	);

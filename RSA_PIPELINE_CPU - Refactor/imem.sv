@@ -5,7 +5,7 @@ module imem
 	output logic [31:0] rd
 );
 
-	logic [31:0] RAM[255:0];
+	logic [31:0] RAM[150:0];
 	
 	initial
 		$readmemh("inst_mem_init.dat",RAM);

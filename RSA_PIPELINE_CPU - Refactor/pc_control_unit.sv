@@ -7,7 +7,8 @@ module pc_control_unit
 	input logic [23:0] Imm,
 	
 	// Salidas
-	output logic [31:0] PCNext
+	output logic [31:0] PCNext,
+	output logic FlagZero
 	
 );
 
@@ -37,5 +38,7 @@ module pc_control_unit
 
 		
 	end
+	
+	assign FlagZero = Flags[2];
 			
 endmodule

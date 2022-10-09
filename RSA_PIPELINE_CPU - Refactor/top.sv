@@ -2,7 +2,7 @@
 module top
 (
 	input logic clk, reset, start,
-	output logic [3:0] result
+	output logic FlagZero
 );
 	
 	logic [31:0] WriteData, DataAdr;
@@ -11,12 +11,12 @@ module top
 	
 	// Instancia del procesador
 	arm arm(clk, reset, start, PC, Instr, MemWrite, DataAdr,
-				WriteData, ReadData);
+				WriteData, ReadData, FlagZero);
 	
 	// Memoria de instrucciones
 	imem imem(PC, clk, Instr);
 	
 	// Memoria de datos
-	dmem dmem(clk, MemWrite, DataAdr, WriteData, ReadData, result);
+	dmem dmem(clk, MemWrite, DataAdr, WriteData, ReadData);
 	
 endmodule
