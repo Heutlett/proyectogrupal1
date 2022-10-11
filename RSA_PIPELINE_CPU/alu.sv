@@ -1,13 +1,13 @@
 module alu
 #(parameter N = 4)
 (
+	// Entradas
+	input logic [N-1:0] a_i, b_i,
+	input logic [2:0] opcode_i,
 	
-	input [N-1:0] a_i,
-	input [N-1:0] b_i,
-	input [2:0] opcode_i,
+	// Salidas
 	output logic [N-1:0] result_o,
-	output [3:0] ALUFlags
-	
+	output logic [3:0] ALUFlags
 );
 	import alu_defs::*;
 	
@@ -16,9 +16,11 @@ module alu
 	logic arith_c;
 	
 	arith_unit #(.N(N)) arithmetics (
+		// Entradas
 		.a_i(a_i),
 		.b_i(b_i),
 		.opcode_i(opcode_i),
+		// Salidas
 		.result_o(arith_result_w),
 		.overflow_o(arith_v),
 		.cout_o(arith_c)

@@ -10,16 +10,15 @@ module pipelined_processor // Unidades de control y ruta de datos
 );
 
 	// Control_unit
-	logic [1:0] RegSrc, ImmSrc;
+	logic RegW, MemtoReg, ALUSrc, MemWriteD, FlagsWrite, ImmSrc, RegSrc;
 	logic [2:0] ALUControl;
-	logic RegW, MemtoReg, ALUSrc, MemWriteD, FlagsWrite;
+	
 	
 	
 	// Datapath
-	logic [31:0] InstrD;
-	logic [3:0] ALUFlagsW;
 	logic FlagsWriteW;
-	
+	logic [3:0] ALUFlagsW;
+	logic [31:0] InstrD;
 	
 	pc_control_unit pcu(
 					// Entradas
@@ -33,7 +32,8 @@ module pipelined_processor // Unidades de control y ruta de datos
 					.Imm(Instr[23:0]),
 					// Salidas
 					.FlagZero(FlagZero),
-					.PCNext(PC));
+					.PCNext(PC)
+					);
 	
 	control_unit c(
 					// Entradas
@@ -47,7 +47,8 @@ module pipelined_processor // Unidades de control y ruta de datos
 					.FlagsWrite(FlagsWrite),
 					.ImmSrc(ImmSrc), 
 					.RegSrc(RegSrc),
-					.ALUControl(ALUControl));
+					.ALUControl(ALUControl)
+					);
 					
 					
 	datapath dp(
@@ -71,6 +72,7 @@ module pipelined_processor // Unidades de control y ruta de datos
 					.ALUFlagsW(ALUFlagsW),
 					.ALUOutM(ALUResult), 
 					.WriteDataM(WriteData),
-					.InstrD(InstrD));
+					.InstrD(InstrD)
+					);
 	
 endmodule

@@ -4,7 +4,6 @@ module instr_mem
 	input clk,
 	input logic [31:0] InstrAddress,
 	
-	
 	// Salidas
 	output logic [31:0] ReadInstr
 );

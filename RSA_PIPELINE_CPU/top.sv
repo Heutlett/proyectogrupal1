@@ -25,7 +25,8 @@ module top
 									.FlagZero(FlagZero),
 									.PC(PC), 
 									.ALUResult(DataAdr),
-									.WriteData(WriteData)); 
+									.WriteData(WriteData)
+									); 
 									
 									
 	// Memoria de instrucciones
@@ -35,7 +36,8 @@ module top
 								.InstrAddress(PC),
 								
 								// Salidas
-								.ReadInstr(Instr));
+								.ReadInstr(Instr)
+								);
 	
 	// Memoria de datos
 	data_mem data_mem(
@@ -46,6 +48,7 @@ module top
 							.WriteData(WriteData),
 						
 							// Salidas
-							.ReadData(ReadData));
+							.ReadData(ReadData)
+							);
 	
 endmodule

@@ -22,21 +22,21 @@ module TB_ALU;
 		b = 32'd10;
 		#10;
 		// SUB
-		opcode = 2'b001;
+		opcode = 3'b001;
 		a = 32'd10;
 		#10;
 		// AND
-		opcode = 2'b010;
+		opcode = 3'b010;
 		a = 32'd10;
 		b = 32'd10;
 		#10;
 		// OR
-		opcode = 2'b011;
+		opcode = 3'b011;
 		a = 32'd11;
 		b = 32'd10;
 		#10;
 		// MOV
-		opcode = 2'b100;
+		opcode = 3'b100;
 		a = 32'd11;
 		b = 32'd11;
 		#10;

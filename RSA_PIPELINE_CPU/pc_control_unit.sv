@@ -15,9 +15,25 @@ module pc_control_unit
 	logic [31:0] PC;
 	logic CondEx;
 	
-	flopenr #(4) flagreg1(clk, reset, FlagsWrite, ALUFlags, Flags);
+	flopenr #(4) flagreg1(
+								// Entradas
+								.clk(clk), 
+								.reset(reset), 
+								.en(FlagsWrite), 
+								.d(ALUFlags), 
+								// Salidas
+								.q(Flags)
+								);
 	
-	flopr #(32) pcreg(clk, reset, start, PC, PCNext);
+	flopr #(32) pcreg	(
+							// Entradas
+							.clk(clk), 
+							.reset(reset), 
+							.start(start), 
+							.d(PC), 
+							// Salidas
+							.q(PCNext)
+							);
 	
 	condcheck cc(Cond, Flags, CondEx);
 

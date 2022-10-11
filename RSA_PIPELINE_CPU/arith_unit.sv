@@ -1,12 +1,13 @@
 module arith_unit
 #(parameter N = 4)
 (
-	input [N-1:0] a_i,
-	input [N-1:0] b_i,
-	input [2:0] opcode_i,
-	output [N-1:0] result_o,
-	output logic overflow_o,
-	output logic cout_o
+	// Entradas
+	input logic [N-1:0] a_i, b_i,
+	input logic [2:0] opcode_i,
+	
+	// Salidas
+	output logic [N-1:0] result_o,
+	output logic overflow_o, cout_o
 );
 	import alu_defs::ARITH_ADD;
 	import alu_defs::ARITH_SUB;

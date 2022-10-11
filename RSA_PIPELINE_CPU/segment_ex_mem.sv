@@ -1,13 +1,18 @@
- module segment_ex_mem (input logic clk, rst,
-								input logic RegWriteE, MemtoRegE, MemWriteE, FlagsWriteE,
-								input logic [31:0] ALUResultE, WriteDataE,
-								input logic [3:0] WA3E, ALUFlagsE,
-								output logic RegWriteM, MemtoRegM, MemWriteM, FlagsWriteM,
-								output logic [31:0] ALUOutM, WriteDataM, 
-								output logic [3:0] WA3M, ALUFlagsM);
+module segment_ex_mem 
+(
+	// Entradas
+	input logic clk, reset, RegWriteE, MemtoRegE, MemWriteE, FlagsWriteE,
+	input logic [3:0] WA3E, ALUFlagsE,
+	input logic [31:0] ALUResultE, WriteDataE,
+	
+	// Salidas
+	output logic RegWriteM, MemtoRegM, MemWriteM, FlagsWriteM,
+	output logic [3:0] WA3M, ALUFlagsM,
+	output logic [31:0] ALUOutM, WriteDataM
+);
 			
-	always_ff@(negedge clk, posedge rst)
-		if(rst)
+	always_ff@(negedge clk, posedge reset)
+		if(reset)
 			begin
 				
 				RegWriteM = 0;

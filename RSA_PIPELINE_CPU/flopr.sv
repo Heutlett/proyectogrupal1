@@ -1,7 +1,10 @@
 module flopr #(parameter WIDTH = 8)
 (
+	// Entradas
 	input logic clk, reset,start,
 	input logic [WIDTH-1:0] d,
+	
+	// Salidas
 	output logic [WIDTH-1:0] q
 );
 
