@@ -1,7 +1,9 @@
-//import arm_const::*;
 module top
 (
+	// Entradas
 	input logic clk, reset, start,
+	
+	// Salidas
 	output logic FlagZero
 );
 	
@@ -10,13 +12,40 @@ module top
 	logic [31:0] PC, Instr, ReadData;
 	
 	// Instancia del procesador
-	arm arm(clk, reset, start, PC, Instr, MemWrite, DataAdr,
-				WriteData, ReadData, FlagZero);
-	
+	pipelined_processor cpu(
+									// Entradas
+									.clk(clk), 
+									.reset(reset), 
+									.start(start), 
+									.Instr(Instr), 
+									.ReadData(ReadData), 
+									
+									// Salidas
+									.MemWrite(MemWrite), 
+									.FlagZero(FlagZero),
+									.PC(PC), 
+									.ALUResult(DataAdr),
+									.WriteData(WriteData)); 
+									
+									
 	// Memoria de instrucciones
-	imem imem(PC, clk, Instr);
+	instr_mem instr_mem(
+								// Entradas
+								.clk(clk), 
+								.InstrAddress(PC),
+								
+								// Salidas
+								.ReadInstr(Instr));
 	
 	// Memoria de datos
-	dmem dmem(clk, MemWrite, DataAdr, WriteData, ReadData);
+	data_mem data_mem(
+							// Entradas
+							.clk(clk), 
+							.WriteEnable(MemWrite), 
+							.DataAddress(DataAdr), 
+							.WriteData(WriteData),
+						
+							// Salidas
+							.ReadData(ReadData));
 	
 endmodule
