@@ -5,16 +5,12 @@ module control_unit
 	input logic [5:0] Funct,
 	
 	// Salidas
-	output logic RegWrite, MemtoReg, MemWrite, ALUSrc, FlagsWrite, ImmSrc, RegSrc,
+	output logic RegWrite, MemtoReg, MemWrite, ALUSrc, FlagsWrite, RegSrc,
 	output logic [2:0] ALUControl
 );
 	
 	// RegSrc: señal de seleccion de los dos mux que entran al banco de registros.
 					// El MSB (ra2mux): selecciona entre RM y RD
-					
-	//	ImmSrc: señal del extensor:
-					// 0: 8-bit unsigned immediate
-					// 1: 12-bit unsigned immediate
 					
 	// ALUSrc: señal de seleccion de la entrada B del ALU.
 					// 0: selecciona el registro RD2.
@@ -48,33 +44,31 @@ module control_unit
 					end
 					
 					RegSrc = 0; 
-					ImmSrc = 0;
 					MemtoReg = 0;
 					MemWrite = 0;
 				
 			end
 				
-			2'b01: begin
+			2'b01: begin	// Control
+			
+					FlagsWrite = 0;
+					ALUSrc = 1;			// Selecciona el immediato extendido para generar la addr = RN + EXT_IMM
 					
 					if (Funct[0])	begin // LDR	
 					
-						FlagsWrite = 0;
-						RegSrc = 0; 
-						ImmSrc = 1;
-						ALUSrc = 1;
+						
+						RegSrc = 0; 	// Selecciona 
 						MemtoReg = 1;
 						RegWrite = 1;
 						MemWrite = 0;
 						
 					end else begin // STR
 						
-						FlagsWrite = 0;
-						RegSrc = 1; 
-						ImmSrc = 1;
-						ALUSrc = 1;
-						MemtoReg = 1;
+						RegSrc = 1; 	// Selecciona RD = WriteData (Dato a guardar en mem)
+						MemtoReg = 0;	
 						RegWrite = 0;
 						MemWrite = 1;
+	
 					end
 			end
 
@@ -82,7 +76,6 @@ module control_unit
 						
 						FlagsWrite = 1'bx;
 						RegSrc = 2'bx; 
-						ImmSrc = 1'bx;
 						ALUSrc = 1'bx;
 						MemtoReg = 1'bx;
 						RegWrite = 1'bx;
@@ -90,6 +83,9 @@ module control_unit
 			end		    
 			
 		endcase
+		
+		
+		
 	
 	// ALU Decoder
 	always_comb

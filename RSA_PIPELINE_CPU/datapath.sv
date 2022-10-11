@@ -1,7 +1,7 @@
 module datapath
 (
 	// Entradas
-	input logic clk, reset, RegWrite, ALUSrc, MemtoReg, MemWrite, FlagsWriteD, ImmSrc, RegSrc,
+	input logic clk, reset, RegWrite, ALUSrc, MemtoReg, MemWrite, FlagsWriteD, RegSrc,
 	input logic [2:0] ALUControl,
 	input logic [31:0] InstrF, ReadData, PCNext,
 	
@@ -79,7 +79,6 @@ module datapath
 					
 	extend ext	(
 					// Entradas
-					.ImmSrc(ImmSrc), 
 					.Instr(InstrD[23:0]), 
 					// Salidas
 					.ExtImm(ExtImm)
