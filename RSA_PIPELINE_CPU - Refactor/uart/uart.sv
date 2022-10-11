@@ -1,0 +1,38 @@
+module uart
+  #(parameter
+    /*
+     You can specify the following three parameters.
+     1. DATA_WIDTH : width of data that is transmited by this module
+     2. BAUD_RATE  : baud rate of output uart signal
+     3. CLK_FREQ   : freqency of input clock signal
+    */
+    DATA_WIDTH = 8,
+    BAUD_RATE  = 115200,
+    CLK_FREQ   = 100_000_000)
+   (input  logic                  rxd,
+    output logic                  txd,
+    input  logic [DATA_WIDTH-1:0] tx_data,
+    input  logic                  tx_valid,
+    output logic                  tx_ready,
+    output logic [DATA_WIDTH-1:0] rx_data,
+    output logic                  rx_valid,
+    input  logic                  rx_ready,
+    input  logic                  clk,
+    input  logic                  rstn);
+
+   uart_tx #(DATA_WIDTH, BAUD_RATE, CLK_FREQ)
+   uart_tx_inst(.data(tx_data),
+                .valid(tx_valid),
+                .clk(clk),
+                .rstn(rstn),
+                .uart_out(txd),
+                .ready(tx_ready));
+
+   uart_rx #(DATA_WIDTH, BAUD_RATE, CLK_FREQ)
+   uart_rx_inst(.uart_in(rxd),
+                .ready(rx_ready),
+                .clk(clk),
+                .rstn(rstn),
+                .data(rx_data),
+                .valid(rx_valid));
+endmodule
