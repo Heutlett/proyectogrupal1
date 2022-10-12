@@ -82,8 +82,3 @@ salto:
 fin:
 	
 	cmp r1, #10
-
-	
-	
-	
-	

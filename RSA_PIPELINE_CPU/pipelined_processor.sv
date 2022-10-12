@@ -13,8 +13,6 @@ module pipelined_processor // Unidades de control y ruta de datos
 	logic RegW, MemtoReg, ALUSrc, MemWriteD, FlagsWrite, RegSrc;
 	logic [2:0] ALUControl;
 	
-	
-	
 	// Datapath
 	logic FlagsWriteW;
 	logic [3:0] ALUFlagsW;

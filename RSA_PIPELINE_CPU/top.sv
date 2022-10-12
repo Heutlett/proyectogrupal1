@@ -19,7 +19,6 @@ module top
 									.start(start), 
 									.Instr(Instr), 
 									.ReadData(ReadData), 
-									
 									// Salidas
 									.MemWrite(MemWrite), 
 									.FlagZero(FlagZero),
@@ -34,7 +33,6 @@ module top
 								// Entradas
 								.clk(clk), 
 								.InstrAddress(PC),
-								
 								// Salidas
 								.ReadInstr(Instr)
 								);
@@ -46,7 +44,6 @@ module top
 							.WriteEnable(MemWrite), 
 							.DataAddress(DataAdr), 
 							.WriteData(WriteData),
-						
 							// Salidas
 							.ReadData(ReadData)
 							);
