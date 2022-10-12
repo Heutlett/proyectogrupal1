@@ -2,9 +2,9 @@ module pc_control_unit
 (	
 	// Entradas
 	input logic clk, reset, FlagsWrite, start,
-	input logic [1:0] Branch, 
-	input logic [3:0] Cond, ALUFlags,
-	input logic [23:0] Imm,
+	input logic [3:0] ALUFlags,
+	input logic [3:0] Id,
+	input logic [17:0] Imm,
 	
 	// Salidas
 	output logic FlagZero,
@@ -13,7 +13,6 @@ module pc_control_unit
 
 	logic [3:0] Flags;
 	logic [31:0] PC;
-	logic CondEx;
 	
 	flopenr #(4) flagreg1(
 								// Entradas
@@ -34,21 +33,22 @@ module pc_control_unit
 							// Salidas
 							.q(PCNext)
 							);
-	
-	condcheck cc(Cond, Flags, CondEx);
-
+							
 	always_comb begin
-				
-		if((Branch == 2'b10) & CondEx) begin
-		
-			PC <= Imm; 
-		
-		end
-		else begin
+	
+		case(Id)
+	
+			4'b1100: PC <= Imm; 						// JMP
 			
-			PC <= PCNext + 4;
+			4'b1101: if (Flags[2]) PC <= Imm;	// JEQ
+						else PC <= PCNext + 4;
 			
-		end
+			4'b1110: if (!Flags[2]) PC <= Imm;	// JNE
+						else PC <= PCNext + 4;
+			
+			default: PC <= PCNext + 4;				// Not control instruction
+		
+		endcase
 		
 	end
 	

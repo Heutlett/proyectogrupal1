@@ -57,8 +57,8 @@ module datapath
 	
 	mux2 #(4) ra2mux	(
 							// Entradas
-							.d0(InstrD[3:0]), 
-							.d1(InstrD[15:12]), 
+							.d0(InstrD[17:14]), 
+							.d1(InstrD[25:22]), 
 							.s(RegSrc), 
 							// Salidas
 							.y(RA2)
@@ -68,7 +68,7 @@ module datapath
 					// Entradas
 					.clk(clk), 
 					.WriteEnable(RegWriteW), 
-					.ra1(InstrD[19:16]), 
+					.ra1(InstrD[21:18]), 
 					.ra2(RA2), 
 					.ra3(WA3W), 
 					.WriteData(Result),
@@ -79,7 +79,7 @@ module datapath
 					
 	extend ext	(
 					// Entradas
-					.Instr(InstrD[23:0]), 
+					.Imm(InstrD[17:0]), 
 					// Salidas
 					.ExtImm(ExtImm)
 					);
@@ -95,7 +95,7 @@ module datapath
 									.ALUSrcD(ALUSrc), 
 									.FlagsWriteD(FlagsWriteD),
 									.ALUControlD(ALUControl),
-									.WA3D(InstrD[15:12]),
+									.WA3D(InstrD[25:22]),
 									.rd1D(RD1D), 
 									.rd2D(RD2D), 
 									.ExtImmD(ExtImm),

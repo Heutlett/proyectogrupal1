@@ -10,4 +10,7 @@ package alu_defs;
 //--------------------------------------------------------------------
 	parameter ARITH_ADD =  3'b000;
 	parameter ARITH_SUB =  3'b001;
+	parameter ARITH_MOD =  3'b101;
+	parameter ARITH_EXP =  3'b110;
+	
 endpackage

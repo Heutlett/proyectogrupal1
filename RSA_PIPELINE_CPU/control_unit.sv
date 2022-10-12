@@ -1,8 +1,7 @@
 module control_unit
 (	
 	// Entradas
-	input logic [1:0] Op,
-	input logic [5:0] Funct,
+	input logic [5:0] Id,
 	
 	// Salidas
 	output logic RegWrite, MemtoReg, MemWrite, ALUSrc, FlagsWrite, RegSrc,
@@ -25,16 +24,17 @@ module control_unit
 	// MemWrite: enable para escribir en la memoria
 	
 	
+	
 	// Instruction decoder
 	always_comb
-		casex(Op)
+		casex(Id[5:4])
 										
-			2'b00: begin	// Data-processing 
+			2'b01: begin	// Data-processing 
 			
-					if (Funct[5]) ALUSrc = 1;			// Si la instruccion utiliza el inmediato
+					if (Id[0]) ALUSrc = 1;			// Si la instruccion utiliza el inmediato
 					else ALUSrc = 0;
 					
-					if (Funct[4:1] == 4'b1010) begin // CMP: modifica las banderas pero no registros
+					if (Id[3:1] == 3'b111) begin // CMP: modifica las banderas pero no registros
 						FlagsWrite = 1;
 						RegWrite = 0;
 						
@@ -49,26 +49,26 @@ module control_unit
 				
 			end
 				
-			2'b01: begin	// Control
+			2'b10: begin	// Memory
 			
 					FlagsWrite = 0;
 					ALUSrc = 1;			// Selecciona el immediato extendido para generar la addr = RN + EXT_IMM
 					
-					if (Funct[0])	begin // LDR	
+					if (Id[3])	begin // STR
 					
+						RegSrc = 1; 	// Selecciona RD = WriteData (Dato a guardar en mem)
+						MemtoReg = 0;	
+						RegWrite = 0;
+						MemWrite = 1;
 						
+						
+					end else begin // LDR
+					
 						RegSrc = 0; 	// Selecciona 
 						MemtoReg = 1;
 						RegWrite = 1;
 						MemWrite = 0;
 						
-					end else begin // STR
-						
-						RegSrc = 1; 	// Selecciona RD = WriteData (Dato a guardar en mem)
-						MemtoReg = 0;	
-						RegWrite = 0;
-						MemWrite = 1;
-	
 					end
 			end
 
@@ -84,18 +84,26 @@ module control_unit
 			
 		endcase
 		
-		
-		
+	
 	
 	// ALU Decoder
 	always_comb
-		case(Funct[4:1])
-			4'b0100: ALUControl = 3'b000; // ADD
-			4'b0010: ALUControl = 3'b001; // SUB
-			4'b0000: ALUControl = 3'b010; // AND
-			4'b1100: ALUControl = 3'b011; // ORR
-			4'b1010: ALUControl = 3'b001; // COMPARE
-			4'b1101: ALUControl = 3'b100; // MOV
+	
+		if (Id[5:4] == 2'b10) begin	// ADD for MEM Instructions
+		
+			ALUControl = 3'b000;
+		
+		end else
+		case(Id[3:1])
+			3'b000: ALUControl = 3'b000; // ADD
+			3'b001: ALUControl = 3'b001; // SUB
+			3'b010: ALUControl = 3'b010; // AND
+			3'b011: ALUControl = 3'b011; // ORR
+			3'b100: ALUControl = 3'b100; // MOV
+			3'b101: ALUControl = 3'b101; // MOD
+			3'b110: ALUControl = 3'b110; // EXP
+			3'b111: ALUControl = 3'b001; // CMP
+			
 			default: ALUControl = 3'bx; // unimplemented
 		endcase
 					

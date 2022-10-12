@@ -18,16 +18,16 @@ module pipelined_processor // Unidades de control y ruta de datos
 	logic [3:0] ALUFlagsW;
 	logic [31:0] InstrD;
 	
+	
 	pc_control_unit pcu(
 					// Entradas
 					.clk(clk), 
 					.reset(reset),
 					.start(start),
-					.Branch(Instr[27:26]), 
 					.FlagsWrite(FlagsWriteW),
-					.Cond(Instr[31:28]), 
+					.Id(Instr[31:28]), 
 					.ALUFlags(ALUFlagsW),
-					.Imm(Instr[23:0]),
+					.Imm(Instr[17:0]),
 					// Salidas
 					.FlagZero(FlagZero),
 					.PCNext(PC)
@@ -35,8 +35,7 @@ module pipelined_processor // Unidades de control y ruta de datos
 	
 	control_unit c(
 					// Entradas
-					.Op(InstrD[27:26]),
-					.Funct(InstrD[25:20]),
+					.Id(InstrD[31:26]),
 					// Salidas
 					.RegWrite(RegW), 
 					.MemtoReg(MemtoReg),

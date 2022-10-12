@@ -1,12 +1,12 @@
 module extend
 (
 	// Entradas
-	input logic [23:0] Instr,
+	input logic [17:0] Imm,
 	
 	// Salidas
 	output logic [31:0] ExtImm
 );
 
-	assign ExtImm = {24'b0, Instr[7:0]} ;											
+	assign ExtImm = {14'b0, Imm} ;											
 
 endmodule
