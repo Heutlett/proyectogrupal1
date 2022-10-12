@@ -2,9 +2,9 @@ module uart_tx
   #(parameter
     /*
      You can specify the following three parameters.
-     1. DATA_WIDTH : width of data that is transmited by this module
-     2. BAUD_RATE  : baud rate of output uart signal
-     3. CLK_FREQ   : freqency of input clock signal
+     1. DATA_WIDTH : is the width of data that is transmited by this module.  Is almost always set to eight. 
+     2. BAUD_RATE  : is the rate at which the serial data is transmitted. 9600 Baud means 9600 bits per second.
+     3. CLK_FREQ   : is the frequency of input clock signal.
     */
     DATA_WIDTH = 8,
     BAUD_RATE  = 115200,
@@ -16,24 +16,26 @@ module uart_tx
     input  logic                  clk,
     input  logic                  rstn);
 
-   localparam LB_DATA_WIDTH    = $clog2(DATA_WIDTH);
-   localparam PULSE_WIDTH      = CLK_FREQ / BAUD_RATE;
-   localparam LB_PULSE_WIDTH   = $clog2(PULSE_WIDTH);
+   localparam LB_DATA_WIDTH    = $clog2(DATA_WIDTH);		// is the number of address bits needed for a memory of size DATA_WIDTH.
+   localparam PULSE_WIDTH      = CLK_FREQ / BAUD_RATE;	
+   localparam LB_PULSE_WIDTH   = $clog2(PULSE_WIDTH);		// is the number of address bits needed for a memory of size PULSE_WIDTH.
    localparam HALF_PULSE_WIDTH = PULSE_WIDTH / 2;
 
+	
+	// STATE MACHINE - Possible states of the state machine for data transmission..
    typedef enum logic [1:0] {STT_DATA,
                              STT_STOP,
                              STT_WAIT
                              } statetype;
-
    statetype                 state;
 
    logic [DATA_WIDTH-1:0]     data_r;
    logic                      uart_out_r;
    logic                      ready_r;
    logic [LB_DATA_WIDTH-1:0]  data_cnt;
-   logic [LB_PULSE_WIDTH:0] clk_cnt;
-
+   logic [LB_PULSE_WIDTH:0] 	clk_cnt;
+	
+	
    always_ff @(posedge clk) begin
       if(!rstn) begin
          state      <= STT_WAIT;

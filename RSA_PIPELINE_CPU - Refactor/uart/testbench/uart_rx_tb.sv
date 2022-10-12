@@ -88,7 +88,7 @@ module uart_rx_tb();
          $display("simulation is failure!");
       end
 
-      $finish;
+//      $finish;
    end
 
 endmodule
