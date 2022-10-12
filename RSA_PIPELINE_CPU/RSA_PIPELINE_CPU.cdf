@@ -6,7 +6,7 @@ JedecChain;
 	P ActionCode(Ign)
 		Device PartName(SOCVHPS) MfrSpec(OpMask(0));
 	P ActionCode(Cfg)
-		Device PartName(5CSEBA6U23) Path("C:/Users/carlo/OneDrive/Escritorio/proyectogrupal1/RSA_PIPELINE_CPU - Refactor/") File("RSA_PIPELINE_CPU.sof") MfrSpec(OpMask(1));
+		Device PartName(5CSEBA6U23) Path("C:/Users/carlo/OneDrive/Escritorio/proyectogrupal1/RSA_PIPELINE_CPU/") File("RSA_PIPELINE_CPU.sof") MfrSpec(OpMask(1));
 
 ChainEnd;
 
