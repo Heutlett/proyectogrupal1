@@ -33,6 +33,8 @@ class Compiler:
       for i in range(0, len(self.instructions)-1):
         file.write(self.instructions[i]+'\n')
       file.write(self.instructions[len(self.instructions)-1])
+    
+    file.close()
       
   def run(self):
     self.lines = self.remove(self.lines)

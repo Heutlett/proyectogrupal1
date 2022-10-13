@@ -31,8 +31,8 @@ opcode_dict =	{
     "ldr" : '0',
     "str" : '1',
     
-    "jmp" : '00',
-    "jeq" : '01', 
+    "jmp" : '0',
+    "jeq" : '1', 
   }
 
 getbinary = lambda x, n: format(x, 'b').zfill(n)
@@ -192,9 +192,9 @@ class Binary:
     result = [tup for tup in self.Labels if tup[0] == self.Rest]
     if (result == []):
       print('Error en linea {}: No se ha encontrado la etiqueta \'{}\'.'.format(self.Line, self.Rest))
-    position = result[0][1]
+    position = (result[0][1]*4) - 4
     self.Imm = getbinary(int(position), self.imm_size)
-    self.Bin = self.Type.value + self.Opcode + '00' + ("0" * (25-18+1)) + self.Imm
+    self.Bin = self.Type.value + self.Opcode + '000' + ("0" * (25-18+1)) + self.Imm
     
     
   def priting(self):

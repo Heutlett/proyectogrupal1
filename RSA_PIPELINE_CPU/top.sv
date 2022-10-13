@@ -4,12 +4,13 @@ module top
 	input logic clk, reset, start,
 	
 	// Salidas
-	output logic FlagZero, EndFlag
+	output logic FlagZero, EndFlag,
+	output logic [31:0] ReadData
 );
 	
 	logic [31:0] WriteData, DataAdr;
 	logic MemWrite;
-	logic [31:0] PC, Instr, ReadData;
+	logic [31:0] PC, Instr;
 	
 	// Instancia del procesador
 	pipelined_processor cpu(
@@ -48,5 +49,6 @@ module top
 							// Salidas
 							.ReadData(ReadData)
 							);
+
 	
 endmodule
