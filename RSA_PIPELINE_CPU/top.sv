@@ -4,8 +4,8 @@ module top
 	input logic clk, reset, start,
 	
 	// Salidas
-	output logic FlagZero, EndFlag, COMFlag,
-	output logic [31:0] ReadDataOut
+	output logic FlagZero, EndFlag, COMFlag, clk_out,
+	output logic [7:0] ReadDataOut
 );
 	
 	logic [31:0] WriteData, DataAdr, ReadData;
@@ -60,6 +60,7 @@ module top
 											.COM(COMFlag),
 											.ReadData(ReadData),
 											// Salidas
+											.clk_out(clk_out),
 											.ReadDataOut(ReadDataOut)
 											);
 
