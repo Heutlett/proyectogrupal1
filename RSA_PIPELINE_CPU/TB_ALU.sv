@@ -25,6 +25,11 @@ module TB_ALU;
 		opcode = 3'b001;
 		a = 32'd10;
 		#10;
+		// MOD
+		opcode = 3'b101;
+		a = 32'd10;
+		b = 32'd5;
+		#10;
 		// AND
 		opcode = 3'b010;
 		a = 32'd10;

@@ -28,13 +28,24 @@ module control_unit
 	// Instruction decoder
 	always_comb
 		casex(Id[5:4])
+		
+			2'b00: begin	// System operation
+			
+				FlagsWrite = 1'b0;
+				RegSrc = 1'b0; 
+				ALUSrc = 1'b0;
+				MemtoReg = 1'b0;
+				RegWrite = 1'b0;
+				MemWrite = 1'b0;
+			
+			end
 										
 			2'b01: begin	// Data-processing 
 			
 					if (Id[0]) ALUSrc = 1;			// Si la instruccion utiliza el inmediato
 					else ALUSrc = 0;
 					
-					if (Id[3:1] == 3'b111) begin // CMP: modifica las banderas pero no registros
+					if (Id[3:1] == 3'b110) begin // CMP: modifica las banderas pero no registros
 						FlagsWrite = 1;
 						RegWrite = 0;
 						
@@ -75,7 +86,7 @@ module control_unit
 			default: begin // Unimplemented
 						
 						FlagsWrite = 1'bx;
-						RegSrc = 2'bx; 
+						RegSrc = 1'bx; 
 						ALUSrc = 1'bx;
 						MemtoReg = 1'bx;
 						RegWrite = 1'bx;
@@ -98,11 +109,10 @@ module control_unit
 			3'b000: ALUControl = 3'b000; // ADD
 			3'b001: ALUControl = 3'b001; // SUB
 			3'b010: ALUControl = 3'b010; // AND
-			3'b011: ALUControl = 3'b011; // ORR
+			3'b011: ALUControl = 3'b011; // OR
 			3'b100: ALUControl = 3'b100; // MOV
 			3'b101: ALUControl = 3'b101; // MOD
-			3'b110: ALUControl = 3'b110; // EXP
-			3'b111: ALUControl = 3'b001; // CMP
+			3'b110: ALUControl = 3'b001; // CMP
 			
 			default: ALUControl = 3'bx; // unimplemented
 		endcase

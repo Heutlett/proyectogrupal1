@@ -3,13 +3,15 @@ module TB_TOP();
 	logic reset;
 	logic start;
 	logic FlagZero;
+	logic EndFlag;
 	
 	// instantiate device to be tested
 	top dut(
 		.clk(clk), 
 		.reset(reset), 
 		.start(start), 
-		.FlagZero(FlagZero)
+		.FlagZero(FlagZero),
+		.EndFlag(EndFlag)
 	);
 	
 	// initialize test

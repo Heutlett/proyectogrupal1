@@ -7,23 +7,19 @@ module alu
 	
 	// Salidas
 	output logic [N-1:0] result_o,
-	output logic [3:0] ALUFlags
+	output logic ZeroFlag
 );
 	import alu_defs::*;
 	
 	logic [N-1:0] arith_result_w;
-	logic arith_v;
-	logic arith_c;
-	
+
 	arith_unit #(.N(N)) arithmetics (
 		// Entradas
 		.a_i(a_i),
 		.b_i(b_i),
 		.opcode_i(opcode_i),
 		// Salidas
-		.result_o(arith_result_w),
-		.overflow_o(arith_v),
-		.cout_o(arith_c)
+		.result_o(arith_result_w)
 	);
 	
 	always_comb
@@ -35,9 +31,6 @@ module alu
 		endcase
 	end
 	
-	assign ALUFlags[0] = ~opcode_i[1] & arith_v;
-	assign ALUFlags[1] = ~opcode_i[1] & arith_c;
-	assign ALUFlags[2] = (result_o == '0);
-	assign ALUFlags[3] = result_o[N-1];
+	assign ZeroFlag = (result_o == '0);
 	
 endmodule

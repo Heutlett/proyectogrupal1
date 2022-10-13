@@ -7,7 +7,7 @@ module datapath
 	
 	// Salidas
 	output logic MemWriteM, FlagsWriteW, 
-	output logic [3:0] ALUFlagsW,
+	output logic ALUFlagZeroW,
 	output logic [31:0] ALUOutM, WriteDataM, InstrD
 );	
 
@@ -17,15 +17,15 @@ module datapath
 	
 	// Decode **********************************************************************
 	
-	logic RegWriteE, MemtoRegE, MemWriteE, ALUSrcE, FlagsWriteE;
+	logic RegWriteE, MemtoRegE, MemWriteE, ALUSrcE, FlagsWriteE, ALUFlagZeroE;
 	logic [2:0] ALUControlE;
-	logic [3:0] RA2, WA3E, ALUFlagsE;
+	logic [3:0] RA2, WA3E;
 	logic [31:0] RD1D, RD2D, rd1E, rd2E, ExtImm, ExtImmE;
 	
 	// Execute *********************************************************************
 	
-	logic RegWriteM, MemtoRegM, FlagsWriteM;
-	logic [3:0] WA3M, ALUFlagsM;
+	logic RegWriteM, MemtoRegM, FlagsWriteM, ALUFlagZeroM;
+	logic [3:0] WA3M;
 	logic [31:0] SrcBE, ALUResultE;
 	
 	// MEM *************************************************************************
@@ -130,7 +130,7 @@ module datapath
 						.opcode_i(ALUControlE), 
 						// Salidas
 						.result_o(ALUResultE),
-						.ALUFlags(ALUFlagsE)
+						.ZeroFlag(ALUFlagZeroE)
 						);
 	
 	segment_ex_mem seg_ex_mem	(
@@ -141,8 +141,8 @@ module datapath
 										.MemtoRegE(MemtoRegE), 
 										.MemWriteE(MemWriteE), 
 										.FlagsWriteE(FlagsWriteE),
+										.ALUFlagZeroE(ALUFlagZeroE),
 										.WA3E(WA3E), 
-										.ALUFlagsE(ALUFlagsE),
 										.ALUResultE(ALUResultE), 
 										.WriteDataE(rd2E),
 										// Salidas
@@ -150,8 +150,8 @@ module datapath
 										.MemtoRegM(MemtoRegM), 
 										.MemWriteM(MemWriteM), 
 										.FlagsWriteM(FlagsWriteM),
+										.ALUFlagZeroM(ALUFlagZeroM),
 										.WA3M(WA3M), 
-										.ALUFlagsM(ALUFlagsM),
 										.ALUOutM(ALUOutM),
 										.WriteDataM(WriteDataM)
 										);
@@ -165,16 +165,16 @@ module datapath
 										.RegWriteM(RegWriteM), 
 										.MemtoRegM(MemtoRegM), 
 										.FlagsWriteM(FlagsWriteM),
+										.ALUFlagZeroM(ALUFlagZeroM),
 										.WA3M(WA3M), 
-										.ALUFlagsM(ALUFlagsM),
 										.ReadDataM(ReadData), 
 										.ALUOutM(ALUOutM),
 										// Salidas
 										.RegWriteW(RegWriteW), 
 										.MemtoRegW(MemtoRegW), 
 										.FlagsWriteW(FlagsWriteW),
+										.ALUFlagZeroW(ALUFlagZeroW),
 										.WA3W(WA3W), 
-										.ALUFlagsW(ALUFlagsW),
 										.ReadDataW(ReadDataW), 
 										.ALUOutW(ALUOutW)
 										);

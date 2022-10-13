@@ -16,6 +16,8 @@ _start:
 	SUB		r4,r2,r1
 	AND		r5,r1,r2
 	ORR		r6,r1,r2
+	MOD    	r8,r1,r2
+
 	
 	// Stall
 	MOV     r0,#0
@@ -29,6 +31,8 @@ _start:
 	STR		r4,[r0,#12]
 	STR		r5,[r0,#16]
 	STR		r6,[r0,#20]
+	STR     r8,[r0,#24]
+
 	
 	LDR		r7,[r0,#4]
 	
@@ -82,3 +86,4 @@ salto:
 fin:
 	
 	cmp r1, #10
+	end

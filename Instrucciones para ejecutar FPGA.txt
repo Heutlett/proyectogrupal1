@@ -1,4 +1,4 @@
 1) Programar la FPGA
 2) Asegurarse de que el switch SW0, está apagado, el primero de derecha a izquierda.
 3) Encender el switch SW1, el segundo de derecha a izquierda
-4) Los leds [3:0] muestran el valor en la dirección de memoria 0.
+4) El LED[5] muestra la flag zero y el LED[0] muestra la bandera de END

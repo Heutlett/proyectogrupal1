@@ -4,7 +4,7 @@ module top
 	input logic clk, reset, start,
 	
 	// Salidas
-	output logic FlagZero
+	output logic FlagZero, EndFlag
 );
 	
 	logic [31:0] WriteData, DataAdr;
@@ -22,6 +22,7 @@ module top
 									// Salidas
 									.MemWrite(MemWrite), 
 									.FlagZero(FlagZero),
+									.EndFlag(EndFlag),
 									.PC(PC), 
 									.ALUResult(DataAdr),
 									.WriteData(WriteData)

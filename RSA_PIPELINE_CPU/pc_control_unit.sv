@@ -2,26 +2,26 @@ module pc_control_unit
 (	
 	// Entradas
 	input logic clk, reset, FlagsWrite, start,
-	input logic [3:0] ALUFlags,
-	input logic [3:0] Id,
+	input logic ZeroFlagIn,
+	input logic [2:0] Id,
 	input logic [17:0] Imm,
 	
 	// Salidas
-	output logic FlagZero,
+	output logic ZeroFlagOut, EndFlag,
 	output logic [31:0] PCNext
 );
 
-	logic [3:0] Flags;
+	logic FlagTemp;
 	logic [31:0] PC;
 	
-	flopenr #(4) flagreg1(
+	flopenr #(1) flagreg1(
 								// Entradas
 								.clk(clk), 
 								.reset(reset), 
 								.en(FlagsWrite), 
-								.d(ALUFlags), 
+								.d(ZeroFlagIn), 
 								// Salidas
-								.q(Flags)
+								.q(FlagTemp)
 								);
 	
 	flopr #(32) pcreg	(
@@ -38,12 +38,18 @@ module pc_control_unit
 	
 		case(Id)
 	
-			4'b1100: PC <= Imm; 						// JMP
+			3'b000: PC <= PCNext + 4;		 		// NOP
 			
-			4'b1101: if (Flags[2]) PC <= Imm;	// JEQ
-						else PC <= PCNext + 4;
+			3'b001: begin 
 			
-			4'b1110: if (!Flags[2]) PC <= Imm;	// JNE
+				PC <= PCNext;							// END
+				$display("\n\n *** El programa ha terminado exitosamente ***");
+				
+			end
+	
+			3'b110: PC <= Imm; 						// JMP
+			
+			3'b111: if (FlagTemp) PC <= Imm;		// JEQ
 						else PC <= PCNext + 4;
 			
 			default: PC <= PCNext + 4;				// Not control instruction
@@ -52,6 +58,7 @@ module pc_control_unit
 		
 	end
 	
-	assign FlagZero = Flags[2];
+	assign ZeroFlagOut = FlagTemp;
+	assign EndFlag = (Id == 3'b001);
 			
 endmodule
