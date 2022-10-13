@@ -7,15 +7,16 @@ class Type(Enum):
   Control = '11'
 
 types_dict =	{
-  Type.Stall : ['nop', 'end'],  
+  Type.Stall : ['nop', 'com', 'end'],  
   Type.Data : ['add', 'sub', 'and', 'or', 'mov','mod', 'cmp'],
   Type.Memory : ['ldr', 'str'],
   Type.Control : ['jmp', 'jeq']
 }
 
 opcode_dict =	{
-    "nop" : '0',
-    "end" : '1',
+    "nop" : '00',
+    "com" : '01',
+    "end" : '10',
     
     "add" : '000',
     "sub" : '001',

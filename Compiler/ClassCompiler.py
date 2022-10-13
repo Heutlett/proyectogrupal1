@@ -2,6 +2,7 @@ import os
 import re
 from ClassBinary import Binary
 from ClassBinary import opcode_dict
+from shutil import copyfile
 
 class Compiler:
   labels = []
@@ -82,5 +83,9 @@ class Compiler:
     return instr.getHex()
            
 in_ = "program_raw.asm"
-out_ = "inst_mem_init.dat"
+out_ = "..\RSA_PIPELINE_CPU\inst_mem_init.dat"
 compiler = Compiler(in_, out_)
+
+copyfile(out_, "inst_mem_init.dat")
+
+print("Se ha compilado el programa correctamente")

@@ -6,7 +6,7 @@ module datapath
 	input logic [31:0] InstrF, ReadData, PCNext,
 	
 	// Salidas
-	output logic MemWriteM, FlagsWriteW, 
+	output logic MemWriteM, FlagsWriteW, MemtoRegM,
 	output logic ALUFlagZeroW,
 	output logic [31:0] ALUOutM, WriteDataM, InstrD
 );	
@@ -24,7 +24,7 @@ module datapath
 	
 	// Execute *********************************************************************
 	
-	logic RegWriteM, MemtoRegM, FlagsWriteM, ALUFlagZeroM;
+	logic RegWriteM, FlagsWriteM, ALUFlagZeroM;
 	logic [3:0] WA3M;
 	logic [31:0] SrcBE, ALUResultE;
 	

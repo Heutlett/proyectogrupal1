@@ -4,12 +4,12 @@ module top
 	input logic clk, reset, start,
 	
 	// Salidas
-	output logic FlagZero, EndFlag,
-	output logic [31:0] ReadData
+	output logic FlagZero, EndFlag, COMFlag,
+	output logic [31:0] ReadDataOut
 );
 	
-	logic [31:0] WriteData, DataAdr;
-	logic MemWrite;
+	logic [31:0] WriteData, DataAdr, ReadData;
+	logic MemWrite, MemtoReg;
 	logic [31:0] PC, Instr;
 	
 	// Instancia del procesador
@@ -22,8 +22,10 @@ module top
 									.ReadData(ReadData), 
 									// Salidas
 									.MemWrite(MemWrite), 
+									.MemtoRegM(MemtoReg),
 									.FlagZero(FlagZero),
 									.EndFlag(EndFlag),
+									.COMFlag(COMFlag),
 									.PC(PC), 
 									.ALUResult(DataAdr),
 									.WriteData(WriteData)
@@ -49,6 +51,17 @@ module top
 							// Salidas
 							.ReadData(ReadData)
 							);
+	
+	interpreter_coumunication ic 	(
+											// Entradas
+											.clk(clk), 
+											.reset(reset), 
+											.MemtoReg(MemtoReg),
+											.COM(COMFlag),
+											.ReadData(ReadData),
+											// Salidas
+											.ReadDataOut(ReadDataOut)
+											);
 
 	
 endmodule

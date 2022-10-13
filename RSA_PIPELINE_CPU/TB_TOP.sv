@@ -1,6 +1,6 @@
 module TB_TOP();
-	logic clk, reset, start, FlagZero, EndFlag;
-	logic [31:0] ReadData;
+	logic clk, reset, start, FlagZero, EndFlag, COMFlag;
+	logic [31:0] ReadDataOut;
 	
 	// instantiate device to be tested
 	top dut(
@@ -9,7 +9,8 @@ module TB_TOP();
 		.start(start), 
 		.FlagZero(FlagZero),
 		.EndFlag(EndFlag),
-		.ReadData(ReadData)
+		.COMFlag(COMFlag),
+		.ReadDataOut(ReadDataOut)
 	);
 	
 	// initialize test

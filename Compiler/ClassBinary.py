@@ -10,15 +10,16 @@ class Type(Enum):
 
 
 types_dict =	{
-  Type.Stall : ['nop', 'end'],  
+  Type.Stall : ['nop', 'com', 'end'],  
   Type.Data : ['add', 'sub', 'and', 'or', 'mov','mod', 'cmp'],
   Type.Memory : ['ldr', 'str'],
   Type.Control : ['jmp', 'jeq']
 }
 
 opcode_dict =	{
-    "nop" : '0',
-    "end" : '1',
+    "nop" : '00',
+    "com" : '01',
+    "end" : '10',
     
     "add" : '000',
     "sub" : '001',
@@ -122,7 +123,7 @@ class Binary:
     
     
   def stall(self):
-    self.Bin = self.Type.value + self.Opcode + '000' + ('0' * (25-0+1))
+    self.Bin = self.Type.value + self.Opcode + '00' + ('0' * (25-0+1))
 
     
   def data(self):
