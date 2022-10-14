@@ -5,20 +5,24 @@ module interpreter_comunication
 	input logic [31:0] ReadData,
 	
 	// Salidas
-	output clk_out,
+	output logic clk_out,
 	output logic [7:0] ReadDataOut
 );
 
-	always_ff @(posedge clk, posedge reset) begin
+	always_ff @(posedge MemtoReg, posedge reset) begin
 	
 		if (reset) begin 
 			ReadDataOut <= 0; 
 		end
-		else if(MemtoReg & COM) ReadDataOut <= ReadData[7:0];
+		else if(COM) begin 
+			ReadDataOut <= ReadData[7:0];
+		end else begin
+			ReadDataOut <= -1;
+		end
 		
 	end
 	
-	assign clk_out = !MemtoReg;
+	assign clk_out = (MemtoReg & COM);
 	
 	
 endmodule
