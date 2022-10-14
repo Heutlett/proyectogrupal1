@@ -52,7 +52,7 @@ module top
 							.ReadData(ReadData)
 							);
 	
-	interpreter_coumunication ic 	(
+	interpreter_comunication ic 	(
 											// Entradas
 											.clk(clk), 
 											.reset(reset), 
