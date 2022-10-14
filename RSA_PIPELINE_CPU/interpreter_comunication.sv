@@ -14,8 +14,7 @@ module interpreter_comunication
 		if (reset) begin 
 			ReadDataOut <= 0; 
 		end
-		else if(!MemtoReg & !COM) ReadDataOut <= ReadData[7:0];
-		else ReadDataOut <= 127;
+		else if(MemtoReg & COM) ReadDataOut <= ReadData[7:0];
 		
 	end
 	
