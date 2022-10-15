@@ -1,16 +1,18 @@
 module TB_TOP();
 	logic clk, reset, start, FlagZero, EndFlag, COMFlag, clk_out;
+	logic [7:0]	tmp_Serial_ctr;
 	logic [7:0] ReadDataOut;
 	
 	// instantiate device to be tested
 	top dut(
-		.clk(clk), 
+		.clk_FPGA(clk), 
 		.reset(reset), 
 		.start(start), 
 		.FlagZero(FlagZero),
 		.EndFlag(EndFlag),
 		.COMFlag(COMFlag),
 		.clk_out(clk_out),
+		.tmp_Serial_ctr(tmp_Serial_ctr),
 		.ReadDataOut(ReadDataOut)
 	);
 	
