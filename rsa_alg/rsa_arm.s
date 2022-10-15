@@ -12,7 +12,7 @@ encrypt_loop:
     mov r7, #40
     ldr r4, [r7]
     ldr r5, [r7, #1]
-    b exp
+    b eexp
 encrypt_store:
     mov r7, #50
     add r7, r7, r8
@@ -30,7 +30,7 @@ decrypt_loop:
     mov r7, #42
     ldr r4, [r7]
     ldr r5, [r7, #1]
-    b exp
+    b dexp
 decrypt_store:
     mov r7, #150
     add r7, r7, r8
