@@ -1,6 +1,6 @@
 .global _start
 _start:
-    b decrypt
+    jmp decrypt
 
 encrypt:
     mov r7, #50
