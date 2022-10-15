@@ -5,7 +5,6 @@ module top
 	
 	// Salidas
 	output logic FlagZero, EndFlag, COMFlag, clk_out,
-	output logic [7:0] tmp_Serial_ctr,
 	output logic [7:0] ReadDataOut
 );
 	logic clk;
@@ -17,12 +16,10 @@ module top
 	// Clock Manager
 	clock_manager clock(
 							  .clk_FPGA(clk_FPGA),
-							  .reset(reset),
 							  .COMFlag(COMFlag),
-							  .clk(clk),
-							  .tmp_Serial_ctr(tmp_Serial_ctr)
+							  .clk(clk)
 							  );
-							  
+
 	// Instancia del procesador
 	pipelined_processor cpu(
 									// Entradas
