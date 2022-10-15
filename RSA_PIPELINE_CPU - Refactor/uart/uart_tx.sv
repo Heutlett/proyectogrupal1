@@ -15,6 +15,9 @@ module uart_tx
     output logic                  ready,
     input  logic                  clk,
     input  logic                  rstn);
+	 
+	//The data must be sampled to recover it correctly. 
+	// It needs to be sampled at least eight times faster than the rate of the data bits.
 
    localparam LB_DATA_WIDTH    = $clog2(DATA_WIDTH);		// is the number of address bits needed for a memory of size DATA_WIDTH.
    localparam PULSE_WIDTH      = CLK_FREQ / BAUD_RATE;	
