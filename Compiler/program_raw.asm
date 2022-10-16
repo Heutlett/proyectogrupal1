@@ -32,17 +32,30 @@
 	jeq		salto
 	jmp		fin
 salto:
-	cmp		r1, #10
-	NOP
-	NOP
-	NOP
-	jeq		fin
 	STR		r1,[r0,#28]
 	ADD		r1, r1, #1
 	NOP
 	NOP
 	NOP
-	JMP		salto
+	cmp		r1, #10
+	NOP
+	NOP
+	NOP
+	jtl		salto
+	jmp	 	fin
+; salto:
+; 	cmp		r1, #10
+; 	NOP
+; 	NOP
+; 	NOP
+; 	jeq		fin
+; 	STR		r1,[r0,#28]
+; 	ADD		r1, r1, #1
+; 	NOP
+; 	NOP
+; 	NOP
+; 	JMP		salto
+
 fin:
 	com
 

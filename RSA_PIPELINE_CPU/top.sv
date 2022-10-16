@@ -4,7 +4,8 @@ module top
 	input logic clk_FPGA, reset, start,
 	
 	// Salidas
-	output logic FlagZero, EndFlag, COMFlag, clk_out,
+	output logic [1:0] ALUFlags,
+	output logic EndFlag, COMFlag, clk_out,
 	output logic [7:0] ReadDataOut
 );
 	logic clk;
@@ -31,7 +32,7 @@ module top
 									// Salidas
 									.MemWrite(MemWrite), 
 									.MemtoRegM(MemtoReg),
-									.FlagZero(FlagZero),
+									.ALUFlags(ALUFlags),
 									.EndFlag(EndFlag),
 									.COMFlag(COMFlag),
 									.PC(PC), 

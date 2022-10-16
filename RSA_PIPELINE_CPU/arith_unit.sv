@@ -7,6 +7,7 @@ module arith_unit
 	
 	// Salidas
 	output logic [N-1:0] result_o
+
 );
 	import alu_defs::ARITH_ADD;
 	import alu_defs::ARITH_SUB;
