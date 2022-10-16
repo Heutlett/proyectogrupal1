@@ -39,8 +39,10 @@ class Compiler:
       
   def run(self):
     self.lines = self.remove(self.lines)
+    # for i in self.lines:
+    #   print(i)
+    # print()
     Binary.Labels = self.labels
-    print(Binary.Labels)
     self.instructions = list(map(self.parse, self.lines))
     
   def remove(self, arr):
@@ -55,11 +57,10 @@ class Compiler:
       x = arr[i]
       
       if (x==""): newlines_ctr+=1
-      
       ## analize comment
       if re.findall('\A;',x):
         continue
-        
+
       # analize if label
       if re.findall(end_with,x):
         if re.findall(start_with, x):
@@ -72,13 +73,16 @@ class Compiler:
 
       ## analize mnemonics
       for key in opcode_dict:
-        if key.lower() in x:
+        if (key.lower() == x[0:3]) or (key.lower() == x[0:2]) :
           # remove garbage
+          if key=='jeq':
+            print(key)
           x = [x[0:len(key)], x[len(key):], i+1]
-          tmp.append(x)          
+          tmp.append(x)
     return tmp
     
   def parse(self, x):
+    # print('Entry:\t:', x[0],x[1], x[2])
     instr = Binary(Mnemonic=x[0], Rest=x[1], Line=x[2])
     print(instr)
     return instr.getHex()
