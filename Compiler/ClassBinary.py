@@ -11,7 +11,7 @@ class Type(Enum):
 
 types_dict =	{
   Type.Stall : ['nop', 'com', 'end'],  
-  Type.Data : ['add', 'sub', 'and', 'or', 'mov','mod', 'cmp'],
+  Type.Data : ['add', 'sub', 'and', 'or', 'mov','mul', 'cmp'],
   Type.Memory : ['ldr', 'str'],
   Type.Control : ['jmp', 'jeq']
 }
@@ -26,14 +26,14 @@ opcode_dict =	{
     "and" : '010', 
     "or"  : '011',
     "mov" : '100', 
-    "mod" : '101',
+    "mul" : '101',
     "cmp" : '110',
     
     "ldr" : '0',
     "str" : '1',
     
     "jmp" : '0',
-    "jeq" : '1', 
+    "jeq" : '1',
   }
 
 getbinary = lambda x, n: format(x, 'b').zfill(n)
@@ -75,25 +75,31 @@ class Binary:
     return ""
   
   def __repr__(self):
-    print('\n➤ line :',self.Line,'\t',self.Mnemonic,self.Rest)
-    match self.Type:
-      case Type.Stall:
-        print('  size :', len(self.Bin),'\t',self.Bin[0:2],self.Bin[2],self.Bin[3:])
+    print('\n➤ line :',self.Line,'\t',self.Mnemonic.upper(),self.Rest)
+    
+    try:
+      
+      match self.Type:
+        case Type.Stall:
+          print('  size :', len(self.Bin),'\t',self.Bin[0:2],self.Bin[2],self.Bin[3:])
 
-      case Type.Data:
-        if (self.I == '1'):
-          print('  size :', len(self.Bin),'\t',self.Bin[0:2],self.Bin[2:5],self.Bin[5:6],self.Bin[6:10], self.Bin[10:14], self.Bin[14:])
-        else:
-          print('  size :', len(self.Bin),'\t',self.Bin[0:2],self.Bin[2:5],self.Bin[5:6],self.Bin[6:10], self.Bin[10:14], self.Bin[14:18], self.Bin[18:])
+        case Type.Data:
+          if (self.I == '1'):
+            print('  size :', len(self.Bin),'\t',self.Bin[0:2],self.Bin[2:5],self.Bin[5:6],self.Bin[6:10], self.Bin[10:14], self.Bin[14:])
+          else:
+            print('  size :', len(self.Bin),'\t',self.Bin[0:2],self.Bin[2:5],self.Bin[5:6],self.Bin[6:10], self.Bin[10:14], self.Bin[14:18], self.Bin[18:])
+            
+        case Type.Memory:
+          print('  size :', len(self.Bin),'\t',self.Bin[0:2],self.Bin[2:3],self.Bin[3:6],self.Bin[6:10], self.Bin[10:14], self.Bin[14:]) 
+                
+        case Type.Control:
+          print('  size :', len(self.Bin),'\t',self.Bin[0:2],self.Bin[2:4],self.Bin[4:6],self.Bin[6:14], self.Bin[14:])
           
-      case Type.Memory:
-        print('  size :', len(self.Bin),'\t',self.Bin[0:2],self.Bin[2:3],self.Bin[3:6],self.Bin[6:10], self.Bin[10:14], self.Bin[14:]) 
-              
-      case Type.Control:
-        print('  size :', len(self.Bin),'\t',self.Bin[0:2],self.Bin[2:4],self.Bin[4:6],self.Bin[6:14], self.Bin[14:])
-        
-    print('\t\t',self.getHex())
-    return ""
+      print('\t\t',self.getHex())
+      return ""
+    except:
+      print('\t\tERROR')
+      return ""
   
   def getHex(self):
     hstr = '%0*X' % ((len(self.Bin) + 3) // 4, int(self.Bin, 2))
@@ -110,17 +116,20 @@ class Binary:
     # Get Mnemonic
     self.Opcode = opcode_dict[self.Mnemonic]
     # Actuar de acuerdo con el tipo.
-    match self.Type:
-      case Type.Stall:
-        self.stall()
-      case Type.Data:
-        self.data()
-      case Type.Memory:
-        self.memory()
-      case Type.Control:
-        self.control()
-    return
-    
+    try :
+      match self.Type:
+        case Type.Stall:
+          self.stall()
+        case Type.Data:
+          self.data()
+        case Type.Memory:
+          self.memory()
+        case Type.Control:
+          self.control()
+      return
+    except:
+      print('Error en linea {}: No se ha encontrado mnemonico \'{}\'.'.format(self.Line, self.Mnemonic.upper()))
+      return
     
   def stall(self):
     self.Bin = self.Type.value + self.Opcode + '00' + ('0' * (25-0+1))

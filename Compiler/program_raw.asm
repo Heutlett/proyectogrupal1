@@ -8,7 +8,9 @@
 	SUB     r4,r2,r1
 	AND     r5,r1,r2
 	OR      r6,r1,r2
-	MOD    	r8,r1,r2
+	MUL    	r8,r1,r2
+	MUL    	r9,r2,#3
+
 	NOP
 	NOP
 	NOP
@@ -17,6 +19,7 @@
 	STR		r5,[r0,#16]
 	STR		r6,[r0,#20]
 	STR		r8,[r0,#24]
+	STR		r9,[r0,#28]
 	LDR		r7,[r0,#4]
 	NOP
 	NOP
@@ -48,26 +51,26 @@ fin:
 	NOP
 	NOP
 
-loop:
+; loop:
 
-	cmp		r1, #8
-	NOP
-	NOP
-	NOP
-	jeq		fin2
-	LDR		r2,[r0]
-	ADD		r1, r1, #1
-	ADD		r0, r0, #4
-	NOP
-	NOP
-	NOP
-	JMP		loop
+; 	cmp		r1, #8
+; 	NOP
+; 	NOP
+; 	NOP
+; 	jeq		fin2
+; 	LDR		r2,[r0]
+; 	ADD		r1, r1, #1
+; 	ADD		r0, r0, #4
+; 	NOP
+; 	NOP
+; 	NOP
+; 	JMP		loop
 
-fin2:
+; fin2:
 
-	cmp		r1, #8
-	NOP
-	NOP
-	NOP
+; 	cmp		r1, #8
+; 	NOP
+; 	NOP
+; 	NOP
 	END
 

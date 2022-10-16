@@ -122,7 +122,7 @@ module control_unit
 			3'b010: ALUControl = 3'b010; // AND
 			3'b011: ALUControl = 3'b011; // OR
 			3'b100: ALUControl = 3'b100; // MOV
-			3'b101: ALUControl = 3'b101; // MOD
+			3'b101: ALUControl = 3'b101; // MUL
 			3'b110: ALUControl = 3'b001; // CMP
 			
 			default: ALUControl = 3'bx; // unimplemented
