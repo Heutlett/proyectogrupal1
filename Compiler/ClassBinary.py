@@ -107,13 +107,11 @@ class Binary:
     return hstr
   
   def analize(self):
-    
     # Get Type
     for key in types_dict: # analizar en cada uno de los tipos.
       if self.Mnemonic in types_dict[key]: # si se encuentra dentro del array.
         self.Type = key
         break
-      
     # Get Mnemonic
     self.Opcode = opcode_dict[self.Mnemonic]
     # Actuar de acuerdo con el tipo.
@@ -179,21 +177,23 @@ class Binary:
       self.Bin = self.Type.value + self.Opcode + self.I + self.Rd + self.Ra + self.Imm
       
     else:
+      self.I = '0'
+      self.Rb  = regs_dict[regs[1]]
       # Si es MOV, entonces RA es cero.
       if (self.Mnemonic == 'mov'):
         self.Rd  = regs_dict[regs[0]]
-        self.Rb  = regs_dict[regs[1]]
         
       # Si es CMP, entonces RD es cero.
       elif (self.Mnemonic == 'cmp'):
         self.Ra  = regs_dict[regs[0]]
-      
+
       self.Bin = self.Type.value + self.Opcode + self.I + self.Rd + self.Ra + self.Rb + ('0' * (13-0+1))
 
     
   def memory(self):
     regs = self.Rest.replace("[","").replace("]","").split(',')
-    
+
+    # (tres registros)
     self.Imm = getbinary(0, self.imm_size) if (len(regs) == 2) else getbinary(int(regs[2][1:]), self.imm_size)
     self.Ra  = regs_dict[regs[1]]
     self.Rd  = regs_dict[regs[0]]
