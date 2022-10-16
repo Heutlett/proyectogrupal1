@@ -13,7 +13,7 @@ types_dict =	{
   Type.Stall : ['nop', 'com', 'end'],  
   Type.Data : ['add', 'sub', 'and', 'or', 'mov','mul', 'cmp'],
   Type.Memory : ['ldr', 'str'],
-  Type.Control : ['jmp', 'jeq']
+  Type.Control : ['jmp', 'jeq', 'jlt']
 }
 
 opcode_dict =	{
@@ -32,8 +32,9 @@ opcode_dict =	{
     "ldr" : '0',
     "str" : '1',
     
-    "jmp" : '0',
-    "jeq" : '1',
+    "jmp" : '00',
+    "jeq" : '01',
+    "jlt" : '10'
   }
 
 getbinary = lambda x, n: format(x, 'b').zfill(n)
@@ -204,7 +205,7 @@ class Binary:
       print('Error en linea {}: No se ha encontrado la etiqueta \'{}\'.'.format(self.Line, self.Rest))
     position = (result[0][1]*4) - 4
     self.Imm = getbinary(int(position), self.imm_size)
-    self.Bin = self.Type.value + self.Opcode + '000' + ("0" * (25-18+1)) + self.Imm
+    self.Bin = self.Type.value + self.Opcode + '00' + ("0" * (25-18+1)) + self.Imm
     
     
   def priting(self):

@@ -40,6 +40,7 @@ class Compiler:
   def run(self):
     self.lines = self.remove(self.lines)
     Binary.Labels = self.labels
+    print(Binary.Labels)
     self.instructions = list(map(self.parse, self.lines))
     
   def remove(self, arr):

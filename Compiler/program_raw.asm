@@ -41,20 +41,8 @@ salto:
 	NOP
 	NOP
 	NOP
-	jtl		salto
+	jlt		salto
 	jmp	 	fin
-; salto:
-; 	cmp		r1, #10
-; 	NOP
-; 	NOP
-; 	NOP
-; 	jeq		fin
-; 	STR		r1,[r0,#28]
-; 	ADD		r1, r1, #1
-; 	NOP
-; 	NOP
-; 	NOP
-; 	JMP		salto
 
 fin:
 	com
@@ -63,27 +51,5 @@ fin:
 	NOP
 	NOP
 	NOP
-
-; loop:
-
-; 	cmp		r1, #8
-; 	NOP
-; 	NOP
-; 	NOP
-; 	jeq		fin2
-; 	LDR		r2,[r0]
-; 	ADD		r1, r1, #1
-; 	ADD		r0, r0, #4
-; 	NOP
-; 	NOP
-; 	NOP
-; 	JMP		loop
-
-; fin2:
-
-; 	cmp		r1, #8
-; 	NOP
-; 	NOP
-; 	NOP
 	END
 
