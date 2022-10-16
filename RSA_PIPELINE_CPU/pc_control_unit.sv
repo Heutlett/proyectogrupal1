@@ -2,26 +2,38 @@ module pc_control_unit
 (	
 	// Entradas
 	input logic clk, reset, FlagsWrite, start,
-	input logic ZeroFlagIn,
-	input logic [2:0] Id,
+	input logic [1:0] ALUFlagsIn,
+	input logic [3:0] Id,
 	input logic [17:0] Imm,
 	
 	// Salidas
-	output logic ZeroFlagOut, EndFlag,
+	output logic [1:0] ALUFlagsOut, 
+	output logic EndFlag, COMFlag,
 	output logic [31:0] PCNext
 );
 
-	logic FlagTemp;
+	logic [1:0] ALUFlagsTemp;
+	logic	COMFlagTemp;
 	logic [31:0] PC;
 	
-	flopenr #(1) flagreg1(
+	flopenr #(2) flagreg1(
 								// Entradas
 								.clk(clk), 
 								.reset(reset), 
 								.en(FlagsWrite), 
-								.d(ZeroFlagIn), 
+								.d(ALUFlagsIn), 
 								// Salidas
-								.q(FlagTemp)
+								.q(ALUFlagsTemp)
+								);
+								
+	flopenr #(1) flagreg2(
+								// Entradas
+								.clk(clk), 
+								.reset(reset), 
+								.en(COMFlagTemp), 
+								.d(1'b1), 
+								// Salidas
+								.q(COMFlag)
 								);
 	
 	flopr #(32) pcreg	(
@@ -35,22 +47,47 @@ module pc_control_unit
 							);
 							
 	always_comb begin
-	
 		case(Id)
 	
-			3'b000: PC <= PCNext + 4;		 		// NOP
+			4'b0000: PC <= PCNext + 4;		 		// NOP
+		
+		
+			4'b0001: begin 							// COM
 			
-			3'b001: begin 
+				PC <= PCNext + 4;							
+				$display("\n\n *** Se inicia la comunicacion con el interprete ***");
+				
+			end
+		
+			4'b0010: begin 
 			
 				PC <= PCNext;							// END
 				$display("\n\n *** El programa ha terminado exitosamente ***");
 				
 			end
 	
-			3'b110: PC <= Imm; 						// JMP
+			4'b1100: PC <= Imm; 						// JMP
 			
-			3'b111: if (FlagTemp) PC <= Imm;		// JEQ
-						else PC <= PCNext + 4;
+			4'b1101: if (ALUFlagsTemp[0])		 	// JEQ
+						begin 
+							PC <= Imm;	
+							$display("\n >> Bandera Zero");
+						end
+						else begin
+							PC <= PCNext + 4;
+							$display("\n >> %b - %b",Id, ALUFlagsTemp[1]);
+						end
+						
+			4'b1110: if (ALUFlagsTemp[1])			// JLT
+						begin
+							PC <= Imm;
+							$display("\n >> Bandera Neg");
+						end
+						
+						else begin
+							$display("\n >> %b - %b",Id, ALUFlagsTemp[1]);
+							PC <= PCNext + 4;
+						end
 			
 			default: PC <= PCNext + 4;				// Not control instruction
 		
@@ -58,7 +95,8 @@ module pc_control_unit
 		
 	end
 	
-	assign ZeroFlagOut = FlagTemp;
-	assign EndFlag = (Id == 3'b001);
-			
+	assign ALUFlagsOut = ALUFlagsTemp;
+	assign EndFlag = (Id == 4'b0010);
+	assign COMFlagTemp = (Id == 4'b0001);
+	
 endmodule

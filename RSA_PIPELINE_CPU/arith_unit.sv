@@ -7,10 +7,11 @@ module arith_unit
 	
 	// Salidas
 	output logic [N-1:0] result_o
+
 );
 	import alu_defs::ARITH_ADD;
 	import alu_defs::ARITH_SUB;
-	import alu_defs::ARITH_MOD;
+	import alu_defs::ARITH_MUL;
 	import alu_defs::MOV_;
 	
 	logic [N:0] result_r;
@@ -26,9 +27,9 @@ module arith_unit
 			begin
 				result_r = (a_i - b_i);
 			end
-			ARITH_MOD:
+			ARITH_MUL:
 			begin
-				result_r = (a_i % b_i);
+				result_r = (a_i * b_i);
 			end
 			MOV_:
 			begin

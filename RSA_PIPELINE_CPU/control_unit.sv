@@ -73,7 +73,7 @@ module control_unit
 						MemWrite = 1;
 						
 						
-					end else begin // LDR
+					end else begin 	// LDR
 					
 						RegSrc = 0; 	// Selecciona 
 						MemtoReg = 1;
@@ -81,6 +81,17 @@ module control_unit
 						MemWrite = 0;
 						
 					end
+			end
+			
+			2'b11: begin				// JMPS
+			
+				FlagsWrite = 1'b0;
+				RegSrc = 1'b0; 
+				ALUSrc = 1'b0;
+				MemtoReg = 1'b0;
+				RegWrite = 1'b0;
+				MemWrite = 1'b0;
+			
 			end
 
 			default: begin // Unimplemented
@@ -111,7 +122,7 @@ module control_unit
 			3'b010: ALUControl = 3'b010; // AND
 			3'b011: ALUControl = 3'b011; // OR
 			3'b100: ALUControl = 3'b100; // MOV
-			3'b101: ALUControl = 3'b101; // MOD
+			3'b101: ALUControl = 3'b101; // MUL
 			3'b110: ALUControl = 3'b001; // CMP
 			
 			default: ALUControl = 3'bx; // unimplemented

@@ -1,16 +1,26 @@
 module top
 (
 	// Entradas
-	input logic clk, reset, start,
+	input logic clk_FPGA, reset, start,
 	
 	// Salidas
-	output logic FlagZero, EndFlag
+	output logic [1:0] ALUFlags,
+	output logic EndFlag, COMFlag, clk_out,
+	output logic [7:0] ReadDataOut
 );
+	logic clk;
+	logic [31:0] WriteData, DataAdr, ReadData;
+	logic MemWrite, MemtoReg;
+	logic [31:0] PC, Instr;
 	
-	logic [31:0] WriteData, DataAdr;
-	logic MemWrite;
-	logic [31:0] PC, Instr, ReadData;
 	
+	// Clock Manager
+	clock_manager clock(
+							  .clk_FPGA(clk_FPGA),
+							  .COMFlag(COMFlag),
+							  .clk(clk)
+							  );
+
 	// Instancia del procesador
 	pipelined_processor cpu(
 									// Entradas
@@ -21,8 +31,10 @@ module top
 									.ReadData(ReadData), 
 									// Salidas
 									.MemWrite(MemWrite), 
-									.FlagZero(FlagZero),
+									.MemtoRegM(MemtoReg),
+									.ALUFlags(ALUFlags),
 									.EndFlag(EndFlag),
+									.COMFlag(COMFlag),
 									.PC(PC), 
 									.ALUResult(DataAdr),
 									.WriteData(WriteData)
@@ -48,5 +60,18 @@ module top
 							// Salidas
 							.ReadData(ReadData)
 							);
+	
+	interpreter_comunication ic 	(
+											// Entradas
+											.clk(clk), 
+											.reset(reset), 
+											.MemtoReg(MemtoReg),
+											.COM(COMFlag),
+											.ReadData(ReadData),
+											// Salidas
+											.clk_out(clk_out),
+											.ReadDataOut(ReadDataOut)
+											);
+
 	
 endmodule

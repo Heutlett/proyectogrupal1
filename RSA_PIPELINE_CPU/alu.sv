@@ -7,7 +7,7 @@ module alu
 	
 	// Salidas
 	output logic [N-1:0] result_o,
-	output logic ZeroFlag
+	output [1:0] ALUFlags
 );
 	import alu_defs::*;
 	
@@ -25,12 +25,19 @@ module alu
 	always_comb
 	begin
 		case (opcode_i)
-			AND_: result_o = a_i & b_i;
-			OR_: result_o = a_i | b_i;
+			AND_: begin
+				result_o = a_i & b_i;
+				$display("\n Result :> %b - ", result_o);
+			end
+			OR_: begin
+				result_o = a_i | b_i;
+				$display("\n Result :> %b - ", result_o);
+			end	
 			default: result_o = arith_result_w;
 		endcase
 	end
 	
-	assign ZeroFlag = (result_o == '0);
+	assign ALUFlags[0] = (result_o == '0);
+	assign ALUFlags[1] = result_o[N-1];
 	
 endmodule

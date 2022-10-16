@@ -2,6 +2,7 @@ import os
 import re
 from ClassBinary import Binary
 from ClassBinary import opcode_dict
+from shutil import copyfile
 
 class Compiler:
   labels = []
@@ -33,10 +34,13 @@ class Compiler:
       for i in range(0, len(self.instructions)-1):
         file.write(self.instructions[i]+'\n')
       file.write(self.instructions[len(self.instructions)-1])
+    
+    file.close()
       
   def run(self):
     self.lines = self.remove(self.lines)
     Binary.Labels = self.labels
+    print(Binary.Labels)
     self.instructions = list(map(self.parse, self.lines))
     
   def remove(self, arr):
@@ -80,5 +84,9 @@ class Compiler:
     return instr.getHex()
            
 in_ = "program_raw.asm"
-out_ = "inst_mem_init.dat"
+out_ = "..\RSA_PIPELINE_CPU\inst_mem_init.dat"
 compiler = Compiler(in_, out_)
+
+copyfile(out_, "inst_mem_init.dat")
+
+print("Se ha compilado el programa correctamente")
