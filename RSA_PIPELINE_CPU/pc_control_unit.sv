@@ -71,21 +71,17 @@ module pc_control_unit
 			4'b1101: if (ALUFlagsTemp[0])		 	// JEQ
 						begin 
 							PC <= Imm;	
-							$display("\n >> Bandera Zero");
 						end
 						else begin
 							PC <= PCNext + 4;
-							$display("\n >> %b - %b",Id, ALUFlagsTemp[1]);
 						end
 						
 			4'b1110: if (ALUFlagsTemp[1])			// JLT
 						begin
 							PC <= Imm;
-							$display("\n >> Bandera Neg");
 						end
 						
 						else begin
-							$display("\n >> %b - %b",Id, ALUFlagsTemp[1]);
 							PC <= PCNext + 4;
 						end
 			

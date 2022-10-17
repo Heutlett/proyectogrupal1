@@ -5,7 +5,7 @@ module TB_TOP();
 	
 	// instantiate device to be tested
 	top dut(
-		.clk_FPGA(clk), 
+		.clk(clk), 
 		.reset(reset), 
 		.start(start), 
 		.ALUFlags(ALUFlags),

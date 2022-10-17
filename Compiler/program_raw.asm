@@ -1,78 +1,73 @@
-.global _start
-_start:
-    jmp decrypt
+	MOV     r0,#0
+	MOV     r1,#2
+	MOV     r2,#3
+	NOP
+	NOP
+	NOP
+	ADD     r3,r1,r2
+	SUB     r4,r2,r1
+	AND     r5,r1,r2
+	OR      r6,r1,r2
+	MUL    	r8,r1,r2
+	NOP
+	NOP
+	NOP
+	STR		r3,[r0,#8]
+	STR		r4,[r0,#12]
+	STR		r5,[r0,#16]
+	STR		r6,[r0,#20]
+	STR		r8,[r0,#24]
+	LDR		r7,[r0,#4]
+	NOP
+	NOP
+	NOP
+	STR		r7,[r0,#4]
+	cmp		r7, #7
+	NOP
+	NOP
+	NOP
+	jeq		salto
+	jmp		fin
+salto:
+	cmp		r1, #10
+	NOP
+	NOP
+	NOP
+	jeq		fin
+	STR		r1,[r0,#28]
+	ADD		r1, r1, #1
+	NOP
+	NOP
+	NOP
+	JMP		salto
+fin:
+	com
 
-encrypt:
-    mov r7, #50
-    mov r8, #0
-encrypt_loop:
-    cmp r7, #100
-    jeq end
-    ldr r3, [r7]
-    mov r7, #40
-    ldr r4, [r7]
-    ldr r5, [r7, #1]
-    jmp eexp
-encrypt_store:
-    mov r7, #50
-    add r7, r7, r8
-    str r1, [r7]
-    add r8, r8, #1
-    jmp encrypt_loop
+	mov r1,#0
+	NOP
+	NOP
+	NOP
 
-decrypt:
-    mov r7, #150
-    mov r8, #0
-decrypt_loop:
-    cmp r7, #150
-    jeq end
-    ldr r3, [r7]
-    mov r7, #42
-    ldr r4, [r7]
-    ldr r5, [r7, #1]
-    jmp dexp
-decrypt_store:
-    mov r7, #150
-    add r7, r7, r8
-    str r1, [r7]
-    add r8, r8, #1
-    jmp decrypt_loop
+loop:
 
-eexp:
-    mov r1, #1
-    mov r2, #0
-eexp_loop:
-    cmp r2, r4
-    jeq encrypt_store
-    mul r6, r1, r3
-    mov r1, r6
-    jmp emod
-eexp_add:
-    add r2, #1
-    jmp eexp_loop
-emod:
-    cmp r1, r5
-    jlt eexp_add
-    sub r1, r1, r5
-    jmp emod
+	cmp		r1, #8
+	NOP
+	NOP
+	NOP
+	jeq		fin2
+	LDR		r2,[r0]
+	ADD		r1, r1, #1
+	ADD		r0, r0, #4
+	NOP
+	NOP
+	NOP
+	JMP		loop
 
-dexp:
-    mov r1, #1
-    mov r2, #0
-dexp_loop:
-    cmp r2, r4
-    jeq decrypt_store
-    mul r6, r1, r3
-    mov r1, r6
-    jmp dmod
-dexp_add:
-    add r2, #1
-    jmp dexp_loop
-dmod:
-    cmp r1, r5
-    jlt dexp_add
-    sub r1, r1, r5
-    jmp dmod
+fin2:
 
-end:
-    jmp end
+	cmp		r1, #8
+	NOP
+	NOP
+	NOP
+	END
+
