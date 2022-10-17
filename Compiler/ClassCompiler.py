@@ -30,6 +30,7 @@ class Compiler:
         self.lines = file.readlines()
         
   def write(self):
+    print(self.o_file)
     with open(self.o_file, "w") as file:
       for i in range(0, len(self.instructions)-1):
         file.write(self.instructions[i]+'\n')
@@ -54,12 +55,10 @@ class Compiler:
     start_with = '^[A-Za-z_][A-Za-z0-9_]*'
     end_with = ':\Z'
     for i in range(len(arr)):
-      x = arr[i]
+      # Stripe out comments
+      x = arr[i].split(';')[0]
       
-      if (x==""): newlines_ctr+=1
-      ## analize comment
-      if re.findall('\A;',x):
-        continue
+      if (x.strip()==""): newlines_ctr+=1
 
       # analize if label
       if re.findall(end_with,x):
@@ -75,8 +74,6 @@ class Compiler:
       for key in opcode_dict:
         if (key.lower() == x[0:3]) or (key.lower() == x[0:2]) :
           # remove garbage
-          if key=='jeq':
-            print(key)
           x = [x[0:len(key)], x[len(key):], i+1]
           tmp.append(x)
     return tmp
@@ -88,9 +85,9 @@ class Compiler:
     return instr.getHex()
            
 in_ = "program_raw.asm"
-out_ = "..\RSA_PIPELINE_CPU\inst_mem_init.dat"
+out_ = "../RSA_PIPELINE_CPU/inst_mem_init.dat"
 compiler = Compiler(in_, out_)
 
-copyfile(out_, "inst_mem_init.dat")
+# copyfile("inst_mem_init.dat", out_)
 
 print("Se ha compilado el programa correctamente")
