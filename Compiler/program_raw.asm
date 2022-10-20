@@ -56,13 +56,6 @@ loop:
 	NOP
 	jeq		fin2
 	LDR		r2,[r0]
-    LDR		r2,[r0]
-    LDR		r2,[r0]
-    LDR		r2,[r0]
-    LDR		r2,[r0]
-    LDR		r2,[r0]
-    LDR		r2,[r0]
-    LDR		r2,[r0]
 	ADD		r1, r1, #1
 	ADD		r0, r0, #4
 	NOP
