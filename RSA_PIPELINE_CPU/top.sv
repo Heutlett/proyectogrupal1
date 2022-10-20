@@ -4,23 +4,24 @@ module top
 	input logic clk_FPGA, reset, start,
 	
 	// Salidas
-	output logic [1:0] ALUFlags,
-	output logic EndFlag, COMFlag, clk_out,
+	output logic EndFlag, clk_out,
 	output logic [7:0] ReadDataOut
 );
-	logic clk;
+	logic [1:0] ALUFlags;
 	logic [31:0] WriteData, DataAdr, ReadData;
 	logic MemWrite, MemtoReg;
 	logic [31:0] PC, Instr;
+	logic clk;
 	
 	
-	// Clock Manager
-	clock_manager clock(
-							  .clk_FPGA(clk_FPGA),
-							  .COMFlag(COMFlag),
-							  .clk(clk)
-							  );
-
+	clock_manager cm (
+							.clk_FPGA(clk_FPGA),
+							.COMFlag(COMFlag),
+							.clk(clk)
+	
+	);
+	
+	
 	// Instancia del procesador
 	pipelined_processor cpu(
 									// Entradas

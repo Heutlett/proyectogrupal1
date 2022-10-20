@@ -27,11 +27,9 @@ module alu
 		case (opcode_i)
 			AND_: begin
 				result_o = a_i & b_i;
-				$display("\n Result :> %b - ", result_o);
 			end
 			OR_: begin
 				result_o = a_i | b_i;
-				$display("\n Result :> %b - ", result_o);
 			end	
 			default: result_o = arith_result_w;
 		endcase

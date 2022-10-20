@@ -1,15 +1,17 @@
 module TB_TOP();
-	logic clk, reset, start, EndFlag, ReadEnable;
-	logic [7:0] ByteOut;
+	logic clk, reset, start, fin,fin2;
+	logic clk_out;
+	logic [3:0] ReadDataOut;
 	
 	// instantiate device to be tested
 	top dut(
-		.clk_FPGA(clk), 
+		.clk(clk), 
 		.reset(reset), 
 		.start(start), 
-		.EndFlag(EndFlag),
-		.clk_out(ReadEnable),
-		.ReadDataOut(ByteOut)
+		.fin(fin),
+		.fin2(fin2),
+		.clk_out(clk_out),
+		.ReadDataOut(ReadDataOut)
 	);
 	
 	// initialize test

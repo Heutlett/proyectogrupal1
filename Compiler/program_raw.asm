@@ -1,4 +1,3 @@
-
 encrypt:
     mov r6, #0 ;Op selector
     mov r7, #120 ; msg start
