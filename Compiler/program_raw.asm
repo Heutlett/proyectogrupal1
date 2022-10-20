@@ -1,7 +1,7 @@
 encrypt:
     mov r6, #0 ;Op selector
-    mov r7, #120 ; msg start
-    mov r8, #80 ; set espace for public key exp
+    mov r7, #8 ; msg start
+    mov r8, #0 ; set espace for public key exp
 
 encrypt_loop:
     nop
@@ -15,7 +15,7 @@ encrypt_loop:
     jmp exp
 encrypt_store:
     str r1, [r7]
-    cmp r7, #132 ; Limit msg mem space
+    cmp r7, #408 ; Limit msg mem space
     nop
     nop
     nop
@@ -68,14 +68,14 @@ finish:
 	com
 
 	mov r1,#0
-	mov r0, #120
+	mov r0, #8
 	NOP
 	NOP
 	NOP
 
 loop:
 
-	cmp		r1, #4
+	cmp		r1, #100
 	NOP
 	NOP
 	NOP
