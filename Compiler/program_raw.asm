@@ -65,4 +65,32 @@ exp_return:
     jeq encrypt_store
 
 finish:
-    end
+	com
+
+	mov r1,#0
+	mov r0, #120
+	NOP
+	NOP
+	NOP
+
+loop:
+
+	cmp		r1, #4
+	NOP
+	NOP
+	NOP
+	jeq		fin2
+	LDR		r2,[r0]
+	ADD		r1, r1, #1
+	ADD		r0, r0, #4
+	NOP
+	NOP
+	NOP
+	JMP		loop
+
+fin2:
+
+	NOP
+	NOP
+	NOP
+	END
