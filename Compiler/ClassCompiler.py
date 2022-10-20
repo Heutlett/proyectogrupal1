@@ -30,7 +30,6 @@ class Compiler:
         self.lines = file.readlines()
         
   def write(self):
-    print(self.o_file)
     with open(self.o_file, "w") as file:
       for i in range(0, len(self.instructions)-1):
         file.write(self.instructions[i]+'\n')

@@ -1,78 +1,69 @@
-.global _start
-_start:
-    jmp decrypt
 
 encrypt:
-    mov r7, #50
-    mov r8, #0
+    mov r6, #0 ;Op selector
+    mov r7, #120 ; msg start
+    mov r8, #80 ; set espace for public key exp
+
 encrypt_loop:
-    cmp r7, #100
-    jeq end
+    nop
+    nop
     ldr r3, [r7]
-    mov r7, #40
-    ldr r4, [r7]
-    ldr r5, [r7, #1]
-    jmp eexp
+    nop
+    nop
+    nop
+    ldr r4, [r8]
+    ldr r5, [r8, #4]
+    jmp exp
 encrypt_store:
-    mov r7, #50
-    add r7, r7, r8
     str r1, [r7]
-    add r8, r8, #1
+    cmp r7, #132 ; Limit msg mem space
+    nop
+    nop
+    nop
+    jeq finish
+    add r7, r7, #4
     jmp encrypt_loop
 
-decrypt:
-    mov r7, #150
-    mov r8, #0
-decrypt_loop:
-    cmp r7, #150
-    jeq end
-    ldr r3, [r7]
-    mov r7, #42
-    ldr r4, [r7]
-    ldr r5, [r7, #1]
-    jmp dexp
-decrypt_store:
-    mov r7, #150
-    add r7, r7, r8
-    str r1, [r7]
-    add r8, r8, #1
-    jmp decrypt_loop
-
-eexp:
-    mov r1, #1
-    mov r2, #0
-eexp_loop:
+exp:
+    mov r1, #1 ; Op result
+    mov r2, #0 ; Iter counter
+exp_loop:
+    nop
+    nop
+    nop
     cmp r2, r4
+    nop
+    nop
+    nop
+    jeq exp_return
+    nop
+    nop
+    nop
+    mul r1, r1, r3
+    jmp mod
+exp_add:
+    add r2, r2, #1
+    jmp exp_loop
+mod:
+    nop
+    nop
+    nop
+    cmp r1, r5
+    nop
+    nop
+    nop
+    jlt exp_add
+    nop
+    nop
+    nop
+    sub r1, r1, r5
+    jmp mod
+exp_return:
+    cmp r6, #0
+    nop
+    nop
+    nop
     jeq encrypt_store
-    mul r6, r1, r3
-    mov r1, r6
-    jmp emod
-eexp_add:
-    add r2, #1
-    jmp eexp_loop
-emod:
-    cmp r1, r5
-    jlt eexp_add
-    sub r1, r1, r5
-    jmp emod
 
-dexp:
-    mov r1, #1
-    mov r2, #0
-dexp_loop:
-    cmp r2, r4
-    jeq decrypt_store
-    mul r6, r1, r3
-    mov r1, r6
-    jmp dmod
-dexp_add:
-    add r2, #1
-    jmp dexp_loop
-dmod:
-    cmp r1, r5
-    jlt dexp_add
-    sub r1, r1, r5
-    jmp dmod
-
-end:
-    jmp end
+finish:
+    end
