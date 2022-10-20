@@ -27,6 +27,8 @@ exp:
     mov r1, #1 ; Op result
     mov r2, #0 ; Iter counter
 exp_loop:
+    cmp r3, #0
+    jeq zero_except
     nop
     nop
     nop
@@ -63,6 +65,11 @@ exp_return:
     nop
     nop
     jeq encrypt_store
+zero_except:
+    mov r1, r3
+    nop
+    nop
+    jmp encrypt_store
 
 finish:
 	com
