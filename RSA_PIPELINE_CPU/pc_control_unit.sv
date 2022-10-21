@@ -1,13 +1,12 @@
 module pc_control_unit
 (	
 	// Entradas
-	input logic clk, reset, FlagsWrite, start,
-	input logic [1:0] ALUFlagsIn,
+	input logic clk, reset, FlagsW, start,
+	input logic [1:0] ALUFlags,
 	input logic [3:0] Id,
 	input logic [17:0] Imm,
 	
 	// Salidas
-	output logic [1:0] ALUFlagsOut, 
 	output logic EndFlag, COMFlag,
 	output logic [31:0] PCNext
 );
@@ -20,8 +19,8 @@ module pc_control_unit
 								// Entradas
 								.clk(clk), 
 								.reset(reset), 
-								.en(FlagsWrite), 
-								.d(ALUFlagsIn), 
+								.en(FlagsW), 
+								.d(ALUFlags), 
 								// Salidas
 								.q(ALUFlagsTemp)
 								);
@@ -91,7 +90,6 @@ module pc_control_unit
 		
 	end
 	
-	assign ALUFlagsOut = ALUFlagsTemp;
 	assign EndFlag = (Id == 4'b0010);
 	assign COMFlagTemp = (Id == 4'b0001);
 	

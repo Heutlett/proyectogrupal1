@@ -7,13 +7,13 @@ module top
 	output logic EndFlag, clk_out,
 	output logic [7:0] ReadDataOut
 );
-	logic [1:0] ALUFlags;
 	logic [31:0] WriteData, DataAdr, ReadData;
 	logic MemWrite, MemtoReg;
 	logic [31:0] PC, Instr;
 	logic clk;
 	
 	
+	// Modulo para cambiar de clk
 	clock_manager cm (
 							.clk_FPGA(clk_FPGA),
 							.COMFlag(COMFlag),
@@ -33,7 +33,6 @@ module top
 									// Salidas
 									.MemWrite(MemWrite), 
 									.MemtoRegM(MemtoReg),
-									.ALUFlags(ALUFlags),
 									.EndFlag(EndFlag),
 									.COMFlag(COMFlag),
 									.PC(PC), 
@@ -45,23 +44,23 @@ module top
 	// Memoria de instrucciones
 	instr_mem instr_mem(
 								// Entradas
-								.clk(clk), 
-								.InstrAddress(PC),
+								.A(PC),
 								// Salidas
-								.ReadInstr(Instr)
+								.RD(Instr)
 								);
 	
 	// Memoria de datos
 	data_mem data_mem(
 							// Entradas
 							.clk(clk), 
-							.WriteEnable(MemWrite), 
-							.DataAddress(DataAdr), 
-							.WriteData(WriteData),
+							.WE(MemWrite), 
+							.A(DataAdr), 
+							.WD(WriteData),
 							// Salidas
-							.ReadData(ReadData)
+							.RD(ReadData)
 							);
 	
+	// Modulo para comuncacion con interprete
 	interpreter_comunication ic 	(
 											// Entradas
 											.clk(clk), 
