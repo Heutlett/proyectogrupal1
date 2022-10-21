@@ -6,7 +6,7 @@ int b4 = 6;       //
 int b5 = 7;       //  
 int b6 = 8;       //  
 int b7 = 9;       //  
-
+int o_byte = B00000000;
 int clk_out = 13;
 int flag = 0;
 
@@ -18,6 +18,8 @@ int val4 = 0;     //
 int val5 = 0;     //
 int val6 = 0;     // 
 int val7 = 0;     // 
+
+int contador = 0;
 
 int val_clk = 0;
 
@@ -32,6 +34,7 @@ void setup() {
 
 void loop() {
 
+
   //Serial.println(digitalRead(clk_out));
 
   if (digitalRead(clk_out)==0){
@@ -39,25 +42,35 @@ void loop() {
   }
   if (digitalRead(clk_out)==1 && flag==0){
     flag=1;
-    val0 = digitalRead(b0);   // 
-    val1 = digitalRead(b1);   // 
-    val2 = digitalRead(b2);   //
-    val3 = digitalRead(b3);   //
-    val4 = digitalRead(b4);   // 
-    val5 = digitalRead(b5);   //
-    val6 = digitalRead(b6);   //
-    val7 = digitalRead(b7);   // 
+    contador = contador + 1;
+    Serial.println(contador);
+    // val0 = digitalRead(b0);   // 
+    // val1 = digitalRead(b1);   // 
+    // val2 = digitalRead(b2);   //
+    // val3 = digitalRead(b3);   //
+    // val4 = digitalRead(b4);   // 
+    // val5 = digitalRead(b5);   //
+    // val6 = digitalRead(b6);   //
+    // val7 = digitalRead(b7);   // 
+    bitWrite(o_byte, 0, digitalRead(b0));
+    bitWrite(o_byte, 1, digitalRead(b1));
+    bitWrite(o_byte, 2, digitalRead(b2));
+    bitWrite(o_byte, 3, digitalRead(b3));
+    bitWrite(o_byte, 4, digitalRead(b4));
+    bitWrite(o_byte, 5, digitalRead(b5));
+    bitWrite(o_byte, 6, digitalRead(b6));
+    bitWrite(o_byte, 7, digitalRead(b7));
 
-
-    Serial.print(val7);
-    Serial.print(val6);
-    Serial.print(val5);
-    Serial.print(val4);
-    Serial.print(val3);
-    Serial.print(val2);
-    Serial.print(val1);
-    Serial.println(val0);
-
+    // Serial.print(val7);
+    // Serial.print(val6);
+    // Serial.print(val5);
+    // Serial.print(val4);
+    // Serial.print(val3);
+    // Serial.print(val2);
+    // Serial.print(val1);
+    //Serial.println(val0);
+    Serial.print("Byte: ");
+    Serial.println(o_byte);
   }
 
-}
+} 
