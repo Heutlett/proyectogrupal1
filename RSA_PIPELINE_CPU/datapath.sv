@@ -69,14 +69,14 @@ module datapath
 	regfile rf	(
 					// Entradas
 					.clk(clk), 
-					.WriteEnable(RegWriteW), 
-					.ra1(InstrD[21:18]), 
-					.ra2(RA2), 
-					.ra3(WA3W), 
-					.WriteData(Result),
+					.WE3(RegWriteW), 
+					.RA1(InstrD[21:18]), 
+					.RA2(RA2), 
+					.RA3(WA3W), 
+					.WD3(Result),
 					// Salidas
-					.rd1(RD1D), 
-					.rd2(RD2D)
+					.RD1(RD1D), 
+					.RD2(RD2D)
 					);
 					
 	extend ext	(
