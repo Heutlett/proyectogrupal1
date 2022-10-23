@@ -70,9 +70,9 @@ module datapath
 					// Entradas
 					.clk(clk), 
 					.WE3(RegWriteW), 
-					.RA1(InstrD[21:18]), 
-					.RA2(RA2), 
-					.RA3(WA3W), 
+					.A1(InstrD[21:18]), 
+					.A2(RA2), 
+					.A3(WA3W), 
 					.WD3(Result),
 					// Salidas
 					.RD1(RD1D), 
