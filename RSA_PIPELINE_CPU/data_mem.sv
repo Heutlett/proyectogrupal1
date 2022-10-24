@@ -1,35 +1,35 @@
 module data_mem
 (
 	// Entradas
-	input logic clk, WriteEnable,
-	input logic [31:0] DataAddress, WriteData,
+	input logic clk, WE,
+	input logic [31:0] A, WD,
 	
 	// Salidas
-	output logic [31:0] ReadData
+	output logic [31:0] RD
 );
 	
 	// Se inicializa la memoria de datos
 	initial 
 		$readmemh("data_mem_init.dat",RAM);
 	
-	logic [31:0] RAM[102:0];
+	logic [31:0] RAM[101:0];
 	
 	always_ff @(posedge clk) begin
 	
-		if (WriteEnable) begin
+		if (WE) begin
 		
-			RAM[DataAddress[13:2]] = WriteData;
+			RAM[A[13:2]] = WD;
 			
 			$display("\n\n---Write cycle DataMem----");
-			$display("Address (hex):---------- %h", DataAddress);
-			$display("Write data (hex):------- %h", WriteData);
-			$display("Write data (dec):------- %d", WriteData);
+			$display("Address (hex):---------- %h", A);
+			$display("Write data (hex):------- %h", WD);
+			$display("Write data (dec):------- %d", WD);
 
 		end
 		
 	end
 	
-	assign ReadData = RAM[DataAddress[13:2]];
+	assign RD = RAM[A[13:2]];
 	
 	
 	

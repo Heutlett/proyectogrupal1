@@ -15,7 +15,7 @@ encrypt_loop:
     jmp exp
 encrypt_store:
     str r1, [r7]
-    cmp r7, #408 ; Limit msg mem space
+    cmp r7, #404 ; Limit msg mem space
     nop
     nop
     nop

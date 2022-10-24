@@ -1,22 +1,22 @@
 module regfile
 (
 	// Entradas
-	input logic clk, WriteEnable,
-	input logic [3:0] ra1, ra2, ra3,
-	input logic [31:0] WriteData,
+	input logic clk, WE3,
+	input logic [3:0] A1, A2, A3,
+	input logic [31:0] WD3,
 	// Salidas
-	output logic [31:0] rd1, rd2
+	output logic [31:0] RD1, RD2
 );
 
-	logic [31:0] rf[14:0];
+	logic [31:0] rf[8:0];
 	
 	always_ff @(posedge clk) begin
 	
-		if (WriteEnable) rf[ra3] <= WriteData;
+		if (WE3) rf[A3] <= WD3;
 		
 	end
 		
-	assign rd1 = rf[ra1];
-	assign rd2 = rf[ra2];
+	assign RD1 = rf[A1];
+	assign RD2 = rf[A2];
 	
 endmodule
