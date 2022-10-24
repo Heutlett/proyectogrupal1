@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 
-text = "ametconsecteturadipiscingelitduistristiquesollicitudinnibhsitametcommodonullafacilisinullamvehiculad"
+text = "Hola, me cago en ViDA, que mierda que quieran tirar abajo el plan, pero aja. Profe ponganos 100 pls^"
 
 # Key values
 crypt = 2831

@@ -56,7 +56,7 @@ void loop() {
       if (contador == 0) {
         Serial.println("Se inicia la comunicacion, recepcion de datos:\n");
       }
-      o_byte = o_byte + 60;  // Quitar esto cuando alejandro logre meter el lorem
+      //o_byte = o_byte + 60;  // Quitar esto cuando alejandro logre meter el lorem
       cadena[contador] = char(o_byte);
       contador = contador + 1;
       Serial.print("Byte(");
