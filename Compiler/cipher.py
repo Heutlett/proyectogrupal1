@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 
-text = "Hola, me cago en ViDA, que mierda que quieran tirar abajo el plan, pero aja. Profe ponganos 100 pls^"
+text = "The idea that we control the dragons is an illusion, they're a power man should never have trifled w"
 
 # Key values
 crypt = 2831
@@ -29,11 +29,11 @@ def dec_hex (ascii_val):
 with open(save_location, "w") as file:
 
     # key write
-    file.write(dec_hex(decrypt) + os.linesep)
-    file.write(dec_hex(mod) + os.linesep)
+    file.write(dec_hex(decrypt) + "\n")
+    file.write(dec_hex(mod) + "\n")
 
     # Text write
     for crypt_char in crypted: 
-        file.write(dec_hex(crypt_char) + os.linesep)
+        file.write(dec_hex(crypt_char) + "\n")
     
     
