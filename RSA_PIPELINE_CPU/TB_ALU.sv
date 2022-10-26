@@ -5,7 +5,7 @@ module TB_ALU;
 	logic [2:0] opcode;
 	logic [N-1:0] a;
 	logic [N-1:0] b;
-	logic [3:0] ALUFlags;
+	logic [1:0] ALUFlags;
 	
 	alu #(.N(N)) alu_unit (
 		.opcode_i(opcode),
@@ -24,26 +24,17 @@ module TB_ALU;
 		// SUB
 		opcode = 3'b001;
 		a = 32'd10;
-		#10;
-		// MOD
-		opcode = 3'b101;
-		a = 32'd10;
 		b = 32'd5;
 		#10;
-		// AND
-		opcode = 3'b010;
-		a = 32'd10;
-		b = 32'd10;
-		#10;
-		// OR
-		opcode = 3'b011;
-		a = 32'd11;
-		b = 32'd10;
-		#10;
 		// MOV
-		opcode = 3'b100;
+		opcode = 3'b010;
 		a = 32'd11;
 		b = 32'd11;
+		#10;
+		// MUL
+		opcode = 3'b011;
+		a = 32'd5;
+		b = 32'd5;
 		#10;
 	end
 endmodule

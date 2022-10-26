@@ -45,7 +45,7 @@ module control_unit
 					if (Id[0]) ALUSrc = 1;			// Si la instruccion utiliza el inmediato
 					else ALUSrc = 0;
 					
-					if (Id[3:1] == 3'b110) begin // CMP: modifica las banderas pero no registros
+					if (Id[3:1] == 3'b100) begin // CMP: modifica las banderas pero no registros
 						FlagsWrite = 1;
 						RegWrite = 0;
 						
@@ -119,11 +119,9 @@ module control_unit
 		case(Id[3:1])
 			3'b000: ALUControl = 3'b000; // ADD
 			3'b001: ALUControl = 3'b001; // SUB
-			3'b010: ALUControl = 3'b010; // AND
-			3'b011: ALUControl = 3'b011; // OR
-			3'b100: ALUControl = 3'b100; // MOV
-			3'b101: ALUControl = 3'b101; // MUL
-			3'b110: ALUControl = 3'b001; // CMP
+			3'b010: ALUControl = 3'b010; // MOV
+			3'b011: ALUControl = 3'b011; // MUL
+			3'b100: ALUControl = 3'b001; // CMP
 			
 			default: ALUControl = 3'bx; // unimplemented
 		endcase

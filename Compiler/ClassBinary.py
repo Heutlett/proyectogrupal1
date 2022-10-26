@@ -11,7 +11,7 @@ class Type(Enum):
 
 types_dict =	{
   Type.Stall : ['nop', 'com', 'end'],  
-  Type.Data : ['add', 'sub', 'and', 'or', 'mov','mul', 'cmp'],
+  Type.Data : ['add', 'sub', 'mov','mul', 'cmp'],
   Type.Memory : ['ldr', 'str'],
   Type.Control : ['jmp', 'jeq', 'jlt']
 }
@@ -23,11 +23,9 @@ opcode_dict =	{
     
     "add" : '000',
     "sub" : '001',
-    "and" : '010', 
-    "or"  : '011',
-    "mov" : '100', 
-    "mul" : '101',
-    "cmp" : '110',
+    "mov" : '010', 
+    "mul" : '011',
+    "cmp" : '100',
     
     "ldr" : '0',
     "str" : '1',
@@ -49,13 +47,7 @@ regs_dict =	{
     "r6"  : '0110', 
     "r7"  : '0111',
     "r8"  : '1000',
-    "r9"  : '1001',
-    "r10" : '1010',
-    "r11" : '1011',
-    "r12" : '1100',
-    "r13" : '1101',
-    "r14" : '1110',
-    "r15" : '1111',
+    "r9"  : '1001'
   }
 
 class Binary:

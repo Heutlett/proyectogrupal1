@@ -11,31 +11,37 @@ module alu
 );
 	import alu_defs::*;
 	
-	logic [N-1:0] arith_result_w;
+	logic [N:0] result_r;
 
-	arith_unit #(.N(N)) arithmetics (
-		// Entradas
-		.a_i(a_i),
-		.b_i(b_i),
-		.opcode_i(opcode_i),
-		// Salidas
-		.result_o(arith_result_w)
-	);
-	
 	always_comb
 	begin
 		case (opcode_i)
-			AND_: begin
-				result_o = a_i & b_i;
+			ARITH_ADD:
+			begin
+				result_r = (a_i + b_i);
 			end
-			OR_: begin
-				result_o = a_i | b_i;
-			end	
-			default: result_o = arith_result_w;
+			ARITH_SUB:
+			begin
+				result_r = (a_i - b_i);
+			end
+			ARITH_MUL:
+			begin
+				result_r = (a_i * b_i);
+			end
+			MOV_:
+			begin
+				result_r = b_i; 
+			end
+			default:
+			begin
+				result_r = '0;
+			end
 		endcase
 	end
 	
-	assign ALUFlags[0] = (result_o == '0);
-	assign ALUFlags[1] = result_o[N-1];
+	
+	assign result_o = result_r;
+	assign ALUFlags[0] = (result_r == '0);
+	assign ALUFlags[1] = result_r[N-1];
 	
 endmodule

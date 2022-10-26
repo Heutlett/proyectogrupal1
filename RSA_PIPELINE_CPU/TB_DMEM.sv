@@ -4,7 +4,7 @@ module TB_DMEM();
  logic [31:0] rd;
  
  
- dmem d(clk,we,a,wd,rd);
+ data_mem d(clk,we,a,wd,rd);
  
  initial begin
   #10; 
