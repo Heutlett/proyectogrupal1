@@ -4,9 +4,9 @@ from pathlib import Path
 text = "The idea that we control the dragons is an illusion, they're a power man should never have trifled w"
 
 # Key values
-crypt = 2831
-mod = 5963
-decrypt = 1631
+crypt = 2371
+mod = 2747
+decrypt = 1531
 
 ascii_values = []
 for character in text:

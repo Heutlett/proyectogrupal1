@@ -1,6 +1,6 @@
 from pathlib import Path
            
-i_file = "input_message.txt"
+i_file = Path(__file__).resolve().parent / "data_0.txt"
 o_file = Path(__file__).resolve().parent.parent / "RSA_PIPELINE_CPU" / "data_mem_init.dat"
 
 
@@ -15,6 +15,7 @@ with open(i_file) as file:
   
 # Process
 lines = lines.split(' ')
+print(len(lines))
 for i in range(0, 200, 2):
   MSB = int(lines[i])
   LSB = int(lines[i+1])
@@ -26,8 +27,8 @@ for i in range(0, 200, 2):
 
 with open(o_file, "w") as file:
   # key write
-  file.write("0000065F\n")
-  file.write("0000174B\n")
+  file.write("000005FB\n")
+  file.write("00000ABB\n")
   for i in range(0, len(output)-1):
     file.write(output[i]+'\n')
   file.write(output[len(output)-1])
